@@ -1,421 +1,395 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#100d0a">
-<title>MANULLER – GACHA</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0a0b18" />
+<title>NEON CAPSULE – Looster Gacha</title>
 <style>
-:root{
-  --bg:#0a0907; --panel:#15110e; --edge:#2b2319;
-  --gold:#d4af37; --gold2:#ffe27a; --txt:#f7f3e8; --muted:#b7a98a;
-  --vio:#a974ff; --red:#ff6d8a; --green:#55f59a; --amber:#ffd166;
-}
-*{box-sizing:border-box}
-body{margin:0;color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;background:#0a0907}
-.wrap{min-height:100svh;display:grid;place-items:center;padding:20px;
-  background:
-    radial-gradient(900px 480px at 80% -10%, rgba(212,175,55,.18), transparent 60%),
-    radial-gradient(800px 440px at -10% 120%, rgba(169,116,255,.14), transparent 60%)}
-.card{width:min(820px,96vw);background:linear-gradient(180deg,rgba(255,239,180,.05),rgba(0,0,0,.0)),var(--panel);
-  border:1px solid var(--edge);border-radius:22px;padding:18px;box-shadow:0 12px 36px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,235,185,.08)}
-.title{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-.logo{width:46px;height:46px;border-radius:12px;background:conic-gradient(from 20deg,#5a441b,#e0c25a,#7a5c2b,#b7952b,#5a441b);box-shadow:inset 0 0 12px #0006,0 0 8px #d4af3744}
-h1{margin:0;font-size:22px;letter-spacing:.02em}
-.brand{background:linear-gradient(180deg,var(--gold2),var(--gold) 70%,#b9962a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 1px 0 rgba(0,0,0,.4)}
-.sub{color:var(--muted);font-size:13px}
+  :root{
+    --bg:#0a0b18; --bg2:#0b0c20;
+    --panel:#111229; --edge:#2a2d6b;
+    --txt:#eaf1ff; --muted:#93a0c9;
+    --neo1:#6d7cff; --neo2:#00e7ff; --neo3:#b56dff;
+    --good:#2df1a1; --warn:#ffd166; --hot:#ff6e9a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:var(--txt);
+    font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #1623a840, transparent 60%),
+      radial-gradient(1000px 700px at -10% 120%, #00e7ff22, transparent 65%),
+      var(--bg);
+  }
 
-/* ====== ガチャ本体 ====== */
-.machine{position:relative;border:1px solid #3a2d18;border-radius:18px;padding:16px;display:grid;grid-template-columns:1fr 92px;gap:12px;
-  background:linear-gradient(180deg,#0f0c0a,#17130f);box-shadow:inset 0 0 18px rgba(0,0,0,.55)}
+  /* ====== シェル ====== */
+  .wrap{min-height:100svh; display:grid; place-items:center; padding:24px}
+  .card{
+    width:min(860px,96vw);
+    background:linear-gradient(180deg, #1a1c40c2, #131534cc), var(--panel);
+    border:1px solid var(--edge);
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 10px 40px rgba(0,0,0,.6), inset 0 1px 0 #3940a033;
+    position:relative; overflow:hidden;
+  }
+  .head{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{
+    font-weight:900; letter-spacing:.04em; margin:0;
+    font-size:20px;
+    background:linear-gradient(90deg, var(--neo2), var(--neo1) 40%, var(--neo3));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .sub{color:var(--muted); font-size:12px}
 
-/* 窓（ドラム＋カプセル） */
-.window{height:196px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg,#0b0907,#110e0a);
-  border:1px solid #4d3b21;box-shadow:inset 0 0 16px rgba(0,0,0,.85)}
-/* ドラムの“縞模様”で回転感を出す */
-.drumStripe{
-  position:absolute; inset:0; opacity:.25; mix-blend-mode:screen; pointer-events:none;
-  background:repeating-linear-gradient(90deg, #ffffff10 0 18px, #0000 18px 34px);
-  transform:translateX(0);
-}
-@keyframes drum-move { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-@keyframes drum-move-fast { from{transform:translateX(0)} to{transform:translateX(-80%)} }
-@keyframes drum-move-rev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+  /* ====== マシン（ネオンリング） ====== */
+  .stage{
+    margin-top:14px; border:1px solid #2a2d6b; border-radius:16px; padding:22px;
+    background:linear-gradient(180deg, #0c0d24, #0b0c20);
+    box-shadow: inset 0 0 24px #000a;
+  }
+  .wheel{
+    width: min(560px, 88vw); aspect-ratio:1/1; margin:0 auto; position:relative;
+    border-radius:50%;
+    background:
+      radial-gradient(closest-side, #0c0e2a 64%, transparent 65%),
+      conic-gradient(from 0deg, #6d7cff33, #00e7ff22, #b56dff33, #6d7cff33);
+    box-shadow: 0 0 40px #6d7cff33, inset 0 0 40px #00e7ff22;
+  }
+  .ring{
+    position:absolute; inset:5%; border-radius:50%;
+    border:8px solid transparent;
+    border-top-color:#6d7cff; border-right-color:#00e7ff; border-left-color:#b56dff;
+    filter:drop-shadow(0 0 12px #6d7cff88) drop-shadow(0 0 22px #00e7ff66);
+    animation:spin 5.5s linear infinite;
+  }
+  .ring.fast{ animation:spin 1.2s linear infinite }
+  .ring.reverse{ animation:spin-rev 0.16s linear 1 }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spin-rev{from{transform:rotate(0)} to{transform:rotate(-90deg)}}
 
-/* 横ベルト（見えるカプセルが流れる）*/
-.belt{position:absolute; left:0; top:50%; width:200%; transform:translateY(-50%); display:flex; gap:18px; padding-left:16px}
-.ball{width:96px;height:96px;border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#8a2be2,#5a1ea8);
-  box-shadow:inset 0 0 14px #000a,0 0 18px #6120ff44;border:2px solid #c9b0ff22}
-.ball.red{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ff8aa4,#d74366)}
-.ball.green{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#66f59a,#18b35a)}
-.ball.gold{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 18px #ffd96655,inset 0 0 14px #000a}
+  /* カプセル（中央生成→落下→開封） */
+  .capsule{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(.9);
+    width:min(180px,28vw); height:min(180px,28vw);
+    filter:drop-shadow(0 0 14px #00e7ff55);
+    display:none;
+  }
+  .cap{position:absolute; inset:0; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff8, transparent 35%),
+                linear-gradient(180deg, #6d7cff, #00d6ff);
+    border:2px solid #8bd7ff55;
+  }
+  .capsule.gold .cap{ background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#ffd36a,#ffb300); border-color:#ffd36a77; filter:drop-shadow(0 0 18px #ffd36a66) }
+  .capsule.green .cap{ background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#53f5a0,#06c67f) }
+  .capsule.red   .cap{ background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#ff7aa3,#ff4e78) }
 
-/* 排出口（フタ＋カプセル＋割れる演出） */
-.tray{grid-column:1/2;margin-top:10px;height:110px;position:relative;display:flex;justify-content:center;align-items:flex-start}
-.slot{width:320px;height:94px;border-radius:18px;background:linear-gradient(180deg,#0d0c0a,#19140f);border:1px solid #4d3b21;box-shadow:inset 0 0 16px rgba(0,0,0,.78);position:relative;overflow:hidden}
-.lid{position:absolute;left:0;right:0;top:0;height:38px;background:linear-gradient(180deg,#221a10,#0c0a08);border-bottom:1px solid #634b24;transform-origin:top;transform:rotateX(0deg);transition:transform .26s ease}
-.flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(240px 80px at 50% 55%,rgba(255,230,160,.35),transparent 60%);transition:opacity .14s ease}
-.flash.on{opacity:1}
+  .capTop{clip-path:inset(0 0 50% 0); transform-origin:50% 45%}
+  .capBot{clip-path:inset(50% 0 0 0); transform-origin:50% 55%}
+  .capsule.show{display:block; animation:popIn .22s ease}
+  @keyframes popIn{from{transform:translate(-50%,-50%) scale(.6); opacity:.6} to{transform:translate(-50%,-50%) scale(.9); opacity:1}}
 
-/* カプセルが“割れて”中身が現れる */
-.capsWrap{position:absolute; left:50%; top:-110px; width:120px; height:120px; transform:translateX(-50%); opacity:0;
-  transition:transform .56s ease, opacity .16s ease}
-.capsWrap.show{opacity:1; transform:translate(-50%, 84px)}
-.half{position:absolute; width:96px; height:48px; left:50%; transform:translateX(-50%); border-radius:48px 48px 0 0;
-  background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#8a2be2,#5a1ea8); box-shadow:inset 0 0 12px #000a}
-.half.bottom{top:48px; border-radius:0 0 48px 48px}
-.capsWrap.gold .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#ffe27a,#d4af37) }
-.capsWrap.green .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#66f59a,#18b35a) }
-.capsWrap.red   .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#ff8aa4,#d74366) }
+  .capOpen .capTop{ animation:topOpen .28s ease forwards }
+  .capOpen .capBot{ animation:botOpen .28s ease forwards }
+  @keyframes topOpen { to{ transform:translate(-8%,-22%) rotate(-18deg) } }
+  @keyframes botOpen { to{ transform:translate(8%,22%) rotate(18deg) } }
 
-/* ぱかっ */
-.capsWrap.open .half.top{ animation:cap-open-top .28s ease forwards }
-.capsWrap.open .half.bottom{ animation:cap-open-bottom .28s ease forwards }
-@keyframes cap-open-top { to { transform:translateX(-120%) rotate(-18deg) } }
-@keyframes cap-open-bottom { to { transform:translateX(20%) rotate(18deg) } }
+  /* 稲妻 / 光柱 */
+  .bolt, .pillar{position:absolute; inset:0; pointer-events:none; display:none}
+  .bolt.show{display:block; background:
+    repeating-linear-gradient(120deg, transparent 0 46px, #fff2 46px 47px),
+    radial-gradient(500px 200px at 50% 45%, #fff3, transparent 65%)}
+  .pillar.show{display:block; background:
+    radial-gradient(circle, #ffd36a55 0 22%, transparent 24%),
+    linear-gradient(180deg, transparent, #ffd36a99 40%, #fff 50%, #ffd36a99 60%, transparent);
+    filter:blur(0.5px)}
 
-/* 中身カード */
-.ticket{position:absolute; left:50%; top:34px; transform:translate(-50%,-8px) scale(.9); opacity:0;
-  background:#111; color:#111; border-radius:10px; padding:8px 12px; font-weight:900; letter-spacing:.02em}
-.capsWrap.show .ticket{opacity:1; transform:translate(-50%,0) scale(1)}
-.t1{background:linear-gradient(180deg,#fff6cc,#ffd166); color:#5a4100; box-shadow:0 0 18px #ffd16655}
-.t2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6); color:#50121f}
-.t3{background:linear-gradient(180deg,#e5d2ff,#bda0ff); color:#2a1552}
-.t4{background:linear-gradient(180deg,#d4ffe4,#9cfabf); color:#134a2b}
-.t5{background:linear-gradient(180deg,#e9eef5,#cbd6e6); color:#203244}
+  /* 操作部 */
+  .panel{margin-top:14px; padding:14px; border:1px solid #27308f; border-radius:14px; background:#0c0e2a}
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .btn{
+    cursor:pointer; user-select:none; border:0; border-radius:12px;
+    padding:12px 18px; font-weight:900; letter-spacing:.02em;
+    color:#06101a; background:linear-gradient(180deg, #7df2ff, #49d4ff);
+    box-shadow:0 6px 16px #00e7ff33, inset 0 1px 0 #fff9;
+  }
+  .btn:active{transform:translateY(1px)}
+  .ghost{background:#101338; color:#cbd4ff; border:1px solid #2a3088}
+  .result{font-size:18px}
+  .muted{color:var(--muted)}
 
-/* レバー */
-.leverWrap{grid-column:2/3;display:grid;place-items:center}
-.leverBase{width:80px;height:170px;border-radius:14px;border:1px solid #3a2d18;background:linear-gradient(180deg,#120f0c,#19140f);box-shadow:inset 0 0 14px rgba(0,0,0,.6)}
-.lever{width:18px;height:92px;background:#604a2b;border-radius:10px;margin:16px auto 0;position:relative;transform-origin:top center;transition:transform .16s ease}
-.knob{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 18px #ffd16655;position:absolute;left:50%;top:76px;transform:translateX(-50%)}
+  /* 全画面リザルトカード */
+  .resultLayer{
+    position:fixed; inset:0; display:none; place-items:center; z-index:50;
+    background:linear-gradient(180deg, #0a0b1890, #0a0b18f0);
+    backdrop-filter: blur(2px);
+  }
+  .resultCard{
+    width:min(640px,92vw); border-radius:18px; padding:20px;
+    text-align:center; font-weight:900; letter-spacing:.02em;
+    border:1px solid #2a2d6b;
+    box-shadow:0 20px 60px #0009;
+  }
+  .r1{ background:linear-gradient(180deg,#fff8cc,#ffd36a); color:#5a4100 }
+  .r2{ background:linear-gradient(180deg,#ffd6ea,#ff9cc0); color:#4a1230 }
+  .r3{ background:linear-gradient(180deg,#e7d7ff,#bfa2ff); color:#2a1552 }
+  .r4{ background:linear-gradient(180deg,#d6ffe9,#9cfad2); color:#0e4a2d }
+  .r5{ background:linear-gradient(180deg,#e9eef9,#cbd6ff); color:#1a2c5a }
+  .rTitle{font-size:28px; margin:0 0 6px}
+  .rPrize{font-size:18px; opacity:.85; margin:0 0 12px}
+  .rRow{display:flex; gap:10px; justify-content:center}
+  .small{font-size:12px; color:#9bb1ff; margin-top:12px}
 
-/* 演出オーバーレイ */
-.glow{position:absolute;inset:0;pointer-events:none;opacity:.0;transition:opacity .18s ease;background:
-  radial-gradient(560px 160px at 50% 50%,rgba(255,220,120,.22),transparent 55%),
-  radial-gradient(640px 200px at 50% 50%,rgba(169,116,255,.18),transparent 60%);mix-blend-mode:screen}
-.glow.show{opacity:1}
-.pillar{position:absolute;left:50%;top:14%;width:16px;height:250px;transform:translateX(-50%);display:none;border-radius:12px;z-index:2;
-  background:linear-gradient(180deg,transparent,#ffe27a 35%,#fff 50%,#ffe27a 65%,transparent);box-shadow:0 0 36px #ffe27a,0 0 60px #ffd166}
-.pillar.show{display:block}
-.bolt{position:absolute;inset:0;display:none;z-index:2;background:
-  repeating-linear-gradient(115deg,transparent 0 48px,rgba(255,255,255,.06) 48px 49px),
-  radial-gradient(420px 140px at 50% 40%,rgba(255,225,150,.22),transparent 60%)}
-.bolt::after{content:"";position:absolute;left:50%;top:8%;width:8px;height:140px;transform:translateX(-50%) rotate(6deg);
-  background:linear-gradient(180deg,#fff,#ffd966 60%,transparent);filter:blur(1px);box-shadow:0 0 24px #ffd966aa,0 0 40px #ffd96666}
-.bolt.show{display:block}
-
-/* 情報/ボタン・バナー */
-.panel{margin-top:12px;padding:14px;border:1px solid #3a2d18;border-radius:14px;background:#100e0b}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{display:inline-block;cursor:pointer;user-select:none;padding:12px 18px;border-radius:12px;font-weight:800;letter-spacing:.02em;
-  color:#100e0b;background:linear-gradient(180deg,var(--gold2),var(--gold));border:1px solid #b9962a;box-shadow:0 6px 16px rgba(212,175,55,.25),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn:active{transform:translateY(1px)}
-.result{font-size:20px;line-height:1.7}
-.muted{color:var(--muted)}
-.banner{margin-top:10px;padding:14px;border-radius:14px;text-align:center;font-weight:900;letter-spacing:.02em;display:none}
-.banner.show{display:block}
-.b1{background:linear-gradient(180deg,#fff6cc,#ffd166);color:#5a4100}
-.b2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6);color:#50121f}
-.b3{background:linear-gradient(180deg,#e5d2ff,#bda0ff);color:#2a1552}
-.b4{background:linear-gradient(180deg,#d4ffe4,#9cfabf);color:#134a2b}
-.b5{background:linear-gradient(180deg,#e9eef5,#cbd6e6);color:#203244}
-
-/* STAFF / モーダル / ローディング */
-.staff{position:fixed;right:14px;bottom:14px;z-index:5;opacity:.9}
-.staff .btn{padding:8px 10px}
-.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:10}
-.modal.open{display:grid}
-.dialog{width:min(420px,92vw);background:#111;border:1px solid #3a2d18;border-radius:14px;padding:16px 16px 18px}
-.input{width:100%;font-size:18px;padding:10px 12px;border-radius:10px;border:1px solid #3a2d18;background:#0d0c0a;color:#fff}
-.row2{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
-.small{font-size:12px;color:#a8946a;margin-top:6px}
-.overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:9}
-.overlay.show{display:grid}
-.spinner{width:24px;height:24px;border:3px solid #3e321a;border-top-color:var(--gold2);border-radius:50%;animation:spin .9s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+  /* STAFF & モーダル & ローディング */
+  .staff{position:fixed; right:14px; bottom:14px; z-index:60}
+  .modal{position:fixed; inset:0; display:none; place-items:center; background:#0009; z-index:70}
+  .modal.open{display:grid}
+  .dialog{width:min(420px,92vw); background:#0e1130; border:1px solid #2a2d6b; border-radius:14px; padding:16px}
+  .input{width:100%; font-size:18px; padding:10px 12px; border-radius:10px; border:1px solid #2a2d6b; background:#0b0e29; color:#fff}
+  .rowR{display:flex; gap:8px; justify-content:flex-end; margin-top:12px}
+  .overlay{position:fixed; inset:0; display:none; place-items:center; background:#00000066; z-index:40}
+  .overlay.show{display:grid}
+  .spinner{width:26px;height:26px;border:3px solid #2a2d6b;border-top-color:#7df2ff;border-radius:50%;animation:spin .9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
-    <div class="title">
-      <div class="logo" id="logo"></div>
+    <div class="head">
       <div>
-        <h1 class="brand">MANULLER – LOOSTER EDITION</h1>
+        <h1 class="brand">NEON CAPSULE</h1>
         <div class="sub">1 PLAY 500円 / STAFF解除 → START</div>
       </div>
+      <button class="btn ghost" id="lockBtn" style="display:none">終了してロック</button>
     </div>
 
-    <div class="machine">
-      <!-- 窓：ドラム＋カプセル -->
-      <div class="window">
-        <div class="glow" id="glow"></div>
-        <div class="pillar" id="pillar"></div>
+    <div class="stage">
+      <div class="wheel">
+        <div class="ring" id="ring"></div>
         <div class="bolt" id="bolt"></div>
-        <div class="drumStripe" id="stripe"></div>
-        <div class="belt" id="belt">
-          <!-- たくさん流す（視覚的に“回転中”を作る） -->
-          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
-          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
-          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
-          <div class="ball"></div><div class="ball gold"></div>
-          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
-          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
-        </div>
-      </div>
+        <div class="pillar" id="pillar"></div>
 
-      <!-- レバー -->
-      <div class="leverWrap">
-        <div class="leverBase">
-          <div class="lever" id="lever"><div class="knob"></div></div>
-        </div>
-      </div>
-
-      <!-- 排出口（フタ→コロン→割れる） -->
-      <div class="tray">
-        <div class="slot" id="slot">
-          <div class="lid" id="lid"></div>
-          <div class="flash" id="flash"></div>
-
-          <!-- 割れるカプセル -->
-          <div class="capsWrap" id="caps">
-            <div class="half top"></div>
-            <div class="half bottom"></div>
-            <div id="ticket" class="ticket">結果</div>
-          </div>
+        <!-- カプセル（中央に出現して割れる） -->
+        <div class="capsule" id="caps">
+          <div class="cap capTop"></div>
+          <div class="cap capBot"></div>
         </div>
       </div>
     </div>
 
-    <!-- ロック/抽選 -->
     <div class="panel" id="lockPanel">
-      <div class="result">🔒 現在ロック中。<br><span class="muted">店員に解除を依頼してください。</span></div>
+      <div class="result">🔒 ロック中。<span class="muted">店員に解除を依頼してください。</span></div>
+      <div class="small">右下「STAFF」→ コード入力で解除（デフォルト: <code>loo500</code>）。</div>
     </div>
+
     <div class="panel" id="drawPanel" style="display:none">
-      <div id="status" class="result">準備OK。<span class="muted">「START」で抽選します。</span></div>
-      <div id="detail" class="muted"></div>
+      <div class="result" id="status">READY</div>
+      <div class="muted" id="detail">「START」で抽選します。</div>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="startBtn">START</button>
-        <button class="btn" id="lockBtn" style="margin-left:auto;display:none">終了してロック</button>
       </div>
-      <div id="banner" class="banner"></div>
     </div>
 
-    <div class="sub">景品：1等 MOËTシルバー / 2等 カフェパリ / 3等 焼酎ボトル / 4等 テキーラ or ドリンク1杯無料 / 5等 おつまみセット</div>
+    <div class="small" style="opacity:.8; margin-top:10px">
+      景品：1等 MOËTシルバー / 2等 カフェパリ / 3等 焼酎ボトル / 4等 ドリンク1杯 or テキーラ / 5等 おつまみセット
+    </div>
+  </div>
+</div>
+
+<!-- 結果レイヤ -->
+<div class="resultLayer" id="resultLayer" aria-hidden="true">
+  <div class="resultCard r5" id="resultCard">
+    <h2 class="rTitle" id="rTitle">5等</h2>
+    <p class="rPrize" id="rPrize">おつまみセット</p>
+    <div class="rRow">
+      <button class="btn" id="againBtn">OK</button>
+    </div>
+    <div class="small">スタッフの操作で終了ロックしてください。</div>
   </div>
 </div>
 
 <!-- STAFF -->
-<div class="staff"><button class="btn" id="staffBtn">STAFF</button></div>
-<div class="modal" id="codeModal" aria-hidden="true">
+<div class="staff">
+  <button class="btn" id="staffBtn">STAFF</button>
+</div>
+<div class="modal" id="codeModal">
   <div class="dialog">
-    <h2>解除コード</h2>
-    <input id="codeInput" class="input" type="password" placeholder="loo500" autocomplete="one-time-code">
-    <div class="row2">
-      <button class="btn" id="cancelBtn" type="button">キャンセル</button>
-      <button class="btn" id="unlockBtn" type="button">解除</button>
+    <h3 style="margin:0 0 10px">解除コード</h3>
+    <input id="codeInput" class="input" type="password" placeholder="loo500" />
+    <div class="rowR">
+      <button class="btn ghost" id="cancelBtn">キャンセル</button>
+      <button class="btn" id="unlockBtn">解除</button>
     </div>
-    <div class="small">解除後は抽選できます。抽選後は「終了してロック」を押してください。</div>
   </div>
 </div>
+
 <div class="overlay" id="overlay"><div class="spinner"></div></div>
 
 <script>
-/* ===== 設定 ===== */
+/* ====== 設定 ====== */
 const GAS = "https://script.google.com/macros/s/AKfycbx2kXtpfhtmof_YWD5FEOJVvN03zdnD4yXNysO32DmNcTkXZSEJknF8Wn2mayqlUFFVgg/exec";
 const STAFF_CODE = "loo500";
 
-/* ===== 要素 ===== */
+/* ====== 要素 ====== */
+const ring=document.getElementById('ring');
+const caps=document.getElementById('caps');
+const bolt=document.getElementById('bolt');
+const pillar=document.getElementById('pillar');
+
 const lockPanel=document.getElementById('lockPanel');
 const drawPanel=document.getElementById('drawPanel');
-const startBtn =document.getElementById('startBtn');
-const lockBtn  =document.getElementById('lockBtn');
-const statusEl =document.getElementById('status');
-const detailEl =document.getElementById('detail');
-const banner   =document.getElementById('banner');
+const startBtn=document.getElementById('startBtn');
+const lockBtn=document.getElementById('lockBtn');
+const statusEl=document.getElementById('status');
+const detailEl=document.getElementById('detail');
 
-const staffBtn =document.getElementById('staffBtn');
+const resultLayer=document.getElementById('resultLayer');
+const resultCard=document.getElementById('resultCard');
+const rTitle=document.getElementById('rTitle');
+const rPrize=document.getElementById('rPrize');
+const againBtn=document.getElementById('againBtn');
+
+const staffBtn=document.getElementById('staffBtn');
 const codeModal=document.getElementById('codeModal');
 const codeInput=document.getElementById('codeInput');
 const cancelBtn=document.getElementById('cancelBtn');
 const unlockBtn=document.getElementById('unlockBtn');
-const logoEl   =document.getElementById('logo');
 
-const belt   =document.getElementById('belt');
-const stripe =document.getElementById('stripe');
-const glow   =document.getElementById('glow');
-const pillar =document.getElementById('pillar');
-const bolt   =document.getElementById('bolt');
-const lid    =document.getElementById('lid');
-const flash  =document.getElementById('flash');
-const caps   =document.getElementById('caps');
-const ticket =document.getElementById('ticket');
-const lever  =document.getElementById('lever');
 const overlay=document.getElementById('overlay');
 
-/* ===== ロック制御 ===== */
+/* ====== 音（簡易WebAudio） ====== */
+let ctx=null;
+function audio(){ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); }
+function tone(f,d=.10,t='square',g=.06){ if(!ctx) return; const o=ctx.createOscillator(), v=ctx.createGain();
+  o.type=t; o.frequency.value=f; v.gain.value=g; o.connect(v); v.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+d); }
+const SE={
+  lever:()=>{ tone(220,.07,'sawtooth',.08); setTimeout(()=>tone(160,.06,'square',.06),70) },
+  spin :()=>{ if(!ctx) return; const o=ctx.createOscillator(), v=ctx.createGain(); o.type='triangle';
+              o.frequency.setValueAtTime(90,ctx.currentTime); v.gain.setValueAtTime(.016,ctx.currentTime);
+              o.connect(v); v.connect(ctx.destination); o.start();
+              setTimeout(()=>{v.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+.12); o.stop(ctx.currentTime+.14)},360) },
+  rev  :()=>{ tone(520,.06,'sawtooth',.06); setTimeout(()=>tone(380,.08,'triangle',.05),60) },
+  fan2 :()=>{ tone(784,.12); setTimeout(()=>tone(988,.18),120) },
+  fan1 :()=>{ tone(784,.12); setTimeout(()=>tone(988,.14),120); setTimeout(()=>tone(1175,.20),260) }
+};
+
+/* ====== ロック制御 ====== */
 function setLocked(lock=true){
-  lockPanel.style.display=lock?'':'none';
-  drawPanel.style.display=lock?'none':'';
+  lockPanel.style.display = lock ? '' : 'none';
+  drawPanel.style.display = lock ? 'none' : '';
+  lockBtn.style.display   = lock ? 'none' : 'inline-block';
   if(lock){
-    startBtn.disabled=false; lockBtn.style.display='none';
-    statusEl.textContent='準備OK。「START」で抽選します。'; detailEl.textContent='';
-    banner.className='banner'; banner.textContent='';
-    resetScene();
+    startBtn.disabled=false;
+    statusEl.textContent='READY';
+    detailEl.textContent='「START」で抽選します。';
+    resetFX();
   }
 }
 setLocked(true);
 
-/* STAFF（ボタン & ロゴ長押し） */
-staffBtn.addEventListener('click', openModal);
-let t=null;
-['touchstart','mousedown'].forEach(ev=>logoEl.addEventListener(ev,()=>t=setTimeout(openModal,800)));
-['touchend','mouseup','mouseleave'].forEach(ev=>logoEl.addEventListener(ev,()=>clearTimeout(t)));
-cancelBtn.addEventListener('click', closeModal);
+/* ====== STAFF ====== */
+function openCode(){ codeModal.classList.add('open'); codeInput.value=''; codeInput.focus(); }
+function closeCode(){ codeModal.classList.remove('open'); }
+staffBtn.addEventListener('click', openCode);
+cancelBtn.addEventListener('click', closeCode);
 unlockBtn.addEventListener('click', ()=>{
-  if((codeInput.value||'').trim()===STAFF_CODE){ setLocked(false); closeModal(); } else { codeInput.value=''; codeInput.placeholder='コードが違います'; codeInput.focus(); }
+  if((codeInput.value||'').trim()===STAFF_CODE){ setLocked(false); closeCode(); }
+  else{ codeInput.value=''; codeInput.placeholder='コードが違います'; codeInput.focus(); }
 });
-function openModal(){ codeModal.classList.add('open'); codeInput.value=''; codeInput.focus(); }
-function closeModal(){ codeModal.classList.remove('open'); }
 
-/* ===== リセット ===== */
-function resetScene(){
-  belt.style.animation='none';
-  stripe.style.animation='none';
-  lever.style.transform='rotate(0deg)';
-  glow.classList.remove('show'); pillar.classList.remove('show'); bolt.classList.remove('show');
-  lid.style.transform='rotateX(0deg)'; flash.classList.remove('on');
-  caps.className='capsWrap'; caps.style.opacity=0; caps.style.transform='translate(-50%,-110px)';
-  ticket.className='ticket'; ticket.textContent='結果';
+/* ====== FX ====== */
+function resetFX(){
+  ring.classList.remove('fast','reverse');
+  caps.className='capsule'; caps.style.display='none';
+  bolt.classList.remove('show'); pillar.classList.remove('show');
 }
+function showCaps(color){
+  caps.className='capsule '+(color||'');
+  caps.style.display='block';
+}
+function openCaps(){ caps.classList.add('capOpen'); }
 
-/* ===== 効果音（簡易WebAudio） ===== */
-let audioCtx=null;
-function initAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }
-function beep({f=600,d=.1,t='square',g=.06}={}){ if(!audioCtx) return; const o=audioCtx.createOscillator(), v=audioCtx.createGain();
-  o.type=t; o.frequency.value=f; v.gain.value=g; o.connect(v); v.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+d); }
-const SE={
-  lever:()=>{ beep({f:220,d:.07,t:'sawtooth',g:.08}); setTimeout(()=>beep({f:160,d:.06,t:'square',g:.06}),70); },
-  spin :()=>{ if(!audioCtx) return; const o=audioCtx.createOscillator(), v=audioCtx.createGain(); o.type='triangle';
-    o.frequency.setValueAtTime(95,audioCtx.currentTime); v.gain.setValueAtTime(0.016,audioCtx.currentTime);
-    o.connect(v); v.connect(audioCtx.destination); o.start(); setTimeout(()=>{v.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.stop(audioCtx.currentTime+0.14);},360); },
-  rev  :()=>{ beep({f:520,d:.06,t:'sawtooth',g:.06}); setTimeout(()=>beep({f:380,d:.08,t:'triangle',g:.05}),60); },
-  pop  :()=>beep({f:660,d:.08,t:'square',g:.06}),
-  fan2 :()=>{ beep({f:784,d:.12,t:'square',g:.07}); setTimeout(()=>beep({f:988,d:.18,t:'square',g:.07}),120); },
-  fan1 :()=>{ beep({f:784,d:.12,t:'square',g:.08}); setTimeout(()=>beep({f:988,d:.14,t:'square',g:.08}),120); setTimeout(()=>beep({f:1175,d:.20,t:'square',g:.08}),260); }
-};
-
-/* ===== START ===== */
+/* ====== 抽選 ====== */
 startBtn.addEventListener('click', draw);
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+lockBtn.addEventListener('click', ()=>setLocked(true));
+againBtn.addEventListener('click', ()=>{ resultLayer.style.display='none'; });
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 async function draw(){
-  startBtn.disabled=true; lockBtn.style.display='none';
-  initAudio();
-  // レバー
-  lever.style.transform='rotate(28deg)'; SE.lever(); setTimeout(()=>lever.style.transform='rotate(0deg)',160);
+  startBtn.disabled=true; audio(); SE.lever();
 
-  // 回転開始（ベルト＋縞模様）
-  resetScene(); glow.classList.add('show');
-  belt.style.animation='drum-move 1.2s linear infinite';
-  stripe.style.animation='drum-move 1.2s linear infinite';
-  SE.spin();
+  // 見た目スピン
+  resetFX(); ring.classList.add('fast'); SE.spin();
 
   // 抽選
   overlay.classList.add('show');
-  let data=null; try{
-    const res=await fetch(GAS+'?ua='+encodeURIComponent(navigator.userAgent),{cache:'no-store'});
-    data=await res.json();
+  let data=null;
+  try{
+    const res = await fetch(GAS+'?ua='+encodeURIComponent(navigator.userAgent), {cache:'no-store'});
+    data = await res.json();
   }catch(e){}
   overlay.classList.remove('show');
 
-  if(!data || !data.status){
-    statusEl.textContent='通信に失敗しました。もう一度お試しください。';
-    startBtn.disabled=false; return;
-  }
-  if(data.status==='ok'){ await playByPrize(data.prize); showResult(data.prize); return; }
+  if(!data || !data.status){ statusEl.textContent='通信エラー。もう一度。'; startBtn.disabled=false; return; }
 
-  // 万一already → 5等演出
-  await playByPrize('P5'); statusEl.textContent='（参考）以前の制限モードの応答：already'; lockBtn.style.display='inline-block'; startBtn.disabled=false;
-}
+  // 等級演出
+  if(data.status==='ok'){ await play(data.prize); showResult(data.prize); }
+  else { await play('P5'); showResult('P5'); }
 
-/* ===== 等級別の演出（ガチャ版） ===== */
-async function playByPrize(p){
-  if(p==='P1'){ // 金光柱＋紙吹雪MAX
-    belt.style.animation='drum-move-fast .95s linear infinite';
-    stripe.style.animation='drum-move-fast .95s linear infinite';
-    await sleep(520); pillar.classList.add('show'); await sleep(220); bolt.classList.add('show'); await sleep(160);
-    await dispense('gold'); SE.fan1(); confettiMax();
-  }else if(p==='P2'){ // 稲妻＋加速 → 排出
-    bolt.classList.add('show');
-    belt.style.animation='drum-move-fast .9s linear infinite';
-    stripe.style.animation='drum-move-fast .9s linear infinite';
-    await sleep(620); await dispense('red'); SE.fan2(); confettiMid();
-  }else if(p==='P3'){ // 逆走チラ（短く）→ 排出
-    await sleep(700);
-    SE.rev();
-    belt.style.animation='drum-move-rev .12s linear 1'; stripe.style.animation='drum-move-rev .12s linear 1';
-    await sleep(140);
-    belt.style.animation='drum-move 1.18s linear infinite'; stripe.style.animation='drum-move 1.18s linear infinite';
-    await sleep(220); await dispense(''); SE.pop(); confettiLite();
-  }else if(p==='P4'){ // ふつう＋少し光
-    await sleep(680); await dispense('green'); SE.pop();
-  }else{ // P5
-    await sleep(640); await dispense(''); SE.pop();
-  }
-}
-
-async function dispense(color=''){
-  // フタ開 → カプセル出る（表示）→ ポン → 割れて中身
-  lid.style.transform='rotateX(88deg)';
-  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
-
-  // 色
-  caps.className='capsWrap' + (color==='gold'?' gold':color==='green'?' green':color==='red'?' red':'');
-  // 出す
-  caps.style.opacity=0; caps.style.transform='translate(-50%,-110px)';
-  await sleep(60);
-  caps.classList.add('show');
-  await sleep(460);
-  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
-  // “ぱかっ”
-  caps.classList.add('open');
-
-  // フタ戻す
-  setTimeout(()=>lid.style.transform='rotateX(0deg)',160);
-}
-
-/* 紙吹雪 */
-function confettiLite(){ confetti({particleCount:120, spread:70, origin:{y:0.3}}) }
-function confettiMid(){ confetti({particleCount:200, spread:75, origin:{y:0.3}}) }
-function confettiMax(){
-  confetti({particleCount:320, spread:80, startVelocity:55, ticks:200, origin:{y:0.3}, colors:['#fff6cc','#ffe082','#ffd54f','#d4af37']});
-  setTimeout(()=>confetti({particleCount:200, spread:70, origin:{y:0.3}}),160);
-}
-
-/* 結果表示（当たりカード＋バナー） */
-function showResult(p){
-  const label={P1:'🎉 大当たり！1等',P2:'✨ 2等 当たり！',P3:'😊 3等',P4:'👍 4等',P5:'🙂 5等'}[p]||'結果';
-  const prize={P1:'MOËTシルバー',P2:'カフェパリ',P3:'焼酎ボトル',P4:'テキーラ or ドリンク1杯無料',P5:'おつまみセット'}[p]||'';
-  statusEl.textContent=label; detailEl.textContent=prize;
-
-  // カードの色
-  ticket.className='ticket ' + (p==='P1'?'t1':p==='P2'?'t2':p==='P3'?'t3':p==='P4'?'t4':'t5');
-  ticket.textContent=`${label} – ${prize}`;
-
-  // 下のバナーも出す
-  banner.className='banner show ' + (p==='P1'?'b1':p==='P2'?'b2':p==='P3'?'b3':p==='P4'?'b4':'b5');
-  banner.textContent = `${label}  –  ${prize}`;
-
-  lockBtn.style.display='inline-block';
   startBtn.disabled=false;
 }
 
-/* 終了してロック */
-lockBtn.addEventListener('click', ()=> setLocked(true));
+async function play(p){
+  if(p==='P1'){ // 金光柱→生成→開封→紙吹雪MAX
+    await sleep(500);
+    pillar.classList.add('show'); await sleep(220);
+    showCaps('gold'); await sleep(260);
+    openCaps(); SE.fan1();
+    confettiMax();
+  }else if(p==='P2'){ // 稲妻→生成→開封
+    bolt.classList.add('show'); await sleep(520);
+    showCaps('red'); await sleep(240);
+    openCaps(); SE.fan2(); confettiMid();
+  }else if(p==='P3'){ // 逆回転パルス→生成→開封
+    SE.rev(); ring.classList.add('reverse'); await sleep(160);
+    ring.classList.remove('reverse'); await sleep(260);
+    showCaps(''); await sleep(220);
+    openCaps();
+  }else if(p==='P4'){
+    await sleep(520); showCaps('green'); await sleep(240); openCaps();
+  }else{ // P5
+    await sleep(480); showCaps(''); await sleep(220); openCaps();
+  }
+}
+
+/* ====== 紙吹雪 ====== */
+function confettiMid(){ confetti({particleCount:220, spread:70, origin:{y:0.3}}); }
+function confettiMax(){
+  confetti({particleCount:340, spread:80, startVelocity:55, origin:{y:0.3}, ticks:200,
+            colors:['#fff6cc','#ffd36a','#7df2ff','#b56dff']});
+  setTimeout(()=>confetti({particleCount:220, spread:72, origin:{y:0.3}}),160);
+}
+
+/* ====== 結果表示（フルスクリーンカード） ====== */
+function showResult(p){
+  const title = {P1:'🎉 1等', P2:'✨ 2等', P3:'😊 3等', P4:'👍 4等', P5:'🙂 5等'}[p];
+  const prize = {P1:'MOËTシルバー', P2:'カフェパリ', P3:'焼酎ボトル', P4:'ドリンク1杯 or テキーラ', P5:'おつまみセット'}[p];
+
+  rTitle.textContent = title;
+  rPrize.textContent = prize;
+
+  resultCard.className = 'resultCard ' + (
+    p==='P1'?'r1':p==='P2'?'r2':p==='P3'?'r3':p==='P4'?'r4':'r5'
+  );
+  resultLayer.style.display='grid';
+
+  statusEl.textContent = title;
+  detailEl.textContent = prize;
+}
 </script>
 </body>
 </html>
