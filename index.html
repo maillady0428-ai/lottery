@@ -7,153 +7,217 @@
 <title>LOOSTER GACHA</title>
 <style>
   :root{
-    --bg:#0b0a08;         /* 背景（黒寄り） */
-    --card:#14110d;       /* カード背景 */
-    --edge:#2b2319;       /* 枠線(濃い金属) */
-    --gold:#d4af37;       /* メイン金色 */
-    --gold-2:#ffdf6e;     /* 明るい金 */
-    --text:#f7f3e8;       /* 文字色 */
-    --muted:#b7a98a;      /* サブ文字 */
-    --accent:#7a5c2b;     /* ボタン等の濃金 */
-    --ok:#7CFFB5;         /* 祝カラー */
-    --warn:#ffd166;       /* 注意カラー */
+    --bg:#0b0a08; --card:#14110d; --edge:#2b2319;
+    --gold:#d4af37; --gold-2:#ffdf6e; --text:#f7f3e8; --muted:#b7a98a;
+    --ok:#7CFFB5; --warn:#ffd166;
   }
-
-  /* 背景に金粉ノイズっぽい表現 */
   body{
-    margin:0; color:var(--text); font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+    margin:0; color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
     background:
       radial-gradient(1200px 600px at 80% -20%, rgba(255,223,110,.25), transparent 60%),
       radial-gradient(900px 500px at -10% 120%, rgba(212,175,55,.18), transparent 55%),
       #0b0a08;
   }
-
   .wrap{min-height:100svh; display:grid; place-items:center; padding:28px;}
   .card{
     width:min(640px,92vw);
-    background:linear-gradient(180deg, rgba(255,239,180,.06), rgba(0,0,0,.0)),
-               var(--card);
-    border-radius:22px;
-    padding:26px 22px;
-    border:1px solid var(--edge);
-    box-shadow:
-      0 10px 30px rgba(0,0,0,.5),
-      inset 0 1px 0 rgba(255,235,185,.08);
-    position:relative;
-    overflow:hidden;
+    background:linear-gradient(180deg, rgba(255,239,180,.06), rgba(0,0,0,.0)), var(--card);
+    border-radius:22px; padding:26px 22px; border:1px solid var(--edge);
+    box-shadow:0 10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,235,185,.08);
+    position:relative; overflow:hidden;
   }
-  /* 上部にゴールドの細い光筋 */
-  .card::before{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(90deg, transparent, rgba(212,175,55,.12), transparent);
-    height:1px; top:0;
-  }
-
+  .card::before{content:""; position:absolute; inset:0; height:1px; top:0;
+    background:linear-gradient(90deg, transparent, rgba(212,175,55,.12), transparent);}
   .brand{display:flex; gap:14px; align-items:center; margin-bottom:12px}
   .logo{
     width:46px; height:46px; border-radius:12px;
     background:conic-gradient(from 20deg, #5a441b, #e0c25a, #7a5c2b, #b7952b, #5a441b);
     box-shadow:inset 0 0 12px rgba(0,0,0,.35), 0 0 8px rgba(212,175,55,.25);
+    user-select:none;
   }
   h1{font-size:24px; letter-spacing:.02em; margin:0}
-  .title{
-    background:linear-gradient(180deg, var(--gold-2), var(--gold) 70%, #b9962a);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-shadow:0 1px 0 rgba(0,0,0,.35);
-  }
+  .title{background:linear-gradient(180deg, var(--gold-2), var(--gold) 70%, #b9962a);
+    -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 1px 0 rgba(0,0,0,.35);}
   .sub{margin:.35rem 0 1.2rem; color:var(--muted); font-size:14px}
-
-  .panel{
-    background:linear-gradient(180deg, rgba(250,235,180,.06), rgba(0,0,0,.0)),
-               #100e0b;
-    border:1px solid #2a2116; border-radius:16px; padding:18px; margin:12px 0;
-  }
+  .panel{background:linear-gradient(180deg, rgba(250,235,180,.06), rgba(0,0,0,.0)), #100e0b;
+    border:1px solid #2a2116; border-radius:16px; padding:18px; margin:12px 0;}
   .result{font-size:20px; line-height:1.7}
   .big{font-size:28px; font-weight:800; letter-spacing:.02em}
-
   .glow{filter:drop-shadow(0 0 18px rgba(212,175,55,.35))}
-  .ok{color:var(--ok)}
-  .warn{color:var(--warn)}
-  .muted{color:var(--muted)}
-
-  .code{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    display:inline-block; margin-top:8px;
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .muted{color:var(--muted)}
+  .code{font-family:ui-monospace,Consolas,monospace; display:inline-block; margin-top:8px;
     background:#0f0d0a; border:1px dashed #4c3a1e; color:var(--gold-2);
-    border-radius:10px; padding:8px 12px;
-  }
-
+    border-radius:10px; padding:8px 12px;}
   .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between}
   .btn{
     display:inline-block; cursor:pointer; user-select:none;
     padding:12px 18px; border-radius:12px; font-weight:700; letter-spacing:.02em;
-    color:#100e0b;
-    background:linear-gradient(180deg, var(--gold-2), var(--gold));
-    border:1px solid #b9962a;
-    box-shadow:0 6px 16px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,255,255,.35);
+    color:#100e0b; background:linear-gradient(180deg, var(--gold-2), var(--gold));
+    border:1px solid #b9962a; box-shadow:0 6px 16px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,255,255,.35);
   }
-  .btn:hover{filter:brightness(1.03)}
-  .btn:active{transform:translateY(1px)}
-
+  .btn:hover{filter:brightness(1.03)} .btn:active{transform:translateY(1px)}
   .hr{height:1px; background:linear-gradient(90deg, transparent, #3a2d18, transparent); margin:18px 0}
   .foot{font-size:12px; color:#c8b98f}
   .how{font-size:13px; color:#d8cba5}
-
-  .spinner{
-    width:22px; height:22px; border:3px solid #3e321a; border-top-color:var(--gold-2);
-    border-radius:50%; display:inline-block; vertical-align:-5px; margin-right:8px;
-    animation:spin .9s linear infinite;
-  }
+  .spinner{width:22px; height:22px; border:3px solid #3e321a; border-top-color:var(--gold-2);
+    border-radius:50%; display:inline-block; vertical-align:-5px; margin-right:8px; animation:spin .9s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
-
-  /* 小さめ端末での余白調整 */
-  @media (max-width:360px){ .result{font-size:18px} .big{font-size:24px} }
+  /* STAFFボタン */
+  .staff{position:fixed; right:14px; bottom:14px; font-size:12px; opacity:.6}
+  .staff .btn{padding:8px 10px}
+  /* モーダル */
+  .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.55); z-index:50;}
+  .modal.open{display:grid}
+  .dialog{width:min(420px,92vw); background:#111; border:1px solid #3a2d18; border-radius:14px; padding:16px 16px 18px}
+  .dialog h2{margin:0 0 8px; font-size:18px}
+  .input{width:100%; font-size:18px; padding:10px 12px; border-radius:10px; border:1px solid #3a2d18; background:#0d0c0a; color:#fff}
+  .row2{display:flex; gap:8px; margin-top:10px; justify-content:flex-end}
+  .small{font-size:12px; color:#a8946a; margin-top:6px}
+  .hint{font-size:12px; color:#8e8e8e; margin-top:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
     <div class="brand">
-      <div class="logo"></div>
+      <div class="logo" id="logo"></div>
       <div>
         <h1 class="title glow">LOOSTER GACHA</h1>
-        <div class="sub">NFCタッチ or QRから参加OK。ハズレなし／同一端末1日1回まで。</div>
+        <div class="sub">QRを読み取って抽選に参加。<b>1 PLAY 500円</b> / 高級ガチャ体験</div>
       </div>
     </div>
 
-    <div class="panel">
-      <div id="status" class="result"><span class="spinner"></span>抽選中です…</div>
-      <div id="detail" class="how"></div>
+    <!-- ロック中パネル -->
+    <div class="panel" id="lockPanel">
+      <div class="result">
+        🔒 現在ロックされています。<br>
+        <span class="muted">店員に解除を依頼してください。</span>
+      </div>
     </div>
 
-    <div class="row">
-      <button class="btn" id="againBtn" style="display:none">もう一度チェック</button>
-      <div class="how">画面のコードをスタッフに提示してください。</div>
+    <!-- 抽選パネル（解除後に表示） -->
+    <div class="panel" id="drawPanel" style="display:none">
+      <div id="status" class="result">準備OK。<span class="muted">「START」で抽選します。</span></div>
+      <div id="detail" class="how"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" id="startBtn">START</button>
+        <div class="how">※ 抽選後は自動で再ロックされます</div>
+      </div>
     </div>
 
     <div class="hr"></div>
     <div class="foot">
-      NFCが反応しない場合は、レジのQRコードをご利用ください。通信不調の際はスタッフまで。
+      景品：1等 MOËTシルバー / 2等 カフェパリ / 3等 焼酎ボトル / 4等 テキーラ or ドリンク1杯無料 / 5等 おつまみセット
     </div>
   </div>
 </div>
 
+<!-- STAFF 専用 起動ボタン（右下） -->
+<div class="staff"><button class="btn" id="staffBtn">STAFF</button></div>
+
+<!-- スタッフ用モーダル -->
+<div class="modal" id="codeModal" aria-hidden="true">
+  <div class="dialog">
+    <h2>解除コードを入力してください</h2>
+    <input id="codeInput" class="input" type="password" placeholder="コード" autocomplete="one-time-code" inputmode="text">
+    <div class="row2">
+      <button class="btn" id="cancelBtn" type="button">キャンセル</button>
+      <button class="btn" id="unlockBtn" type="button">解除</button>
+    </div>
+    <div class="small">成功すると抽選画面に切り替わります（1回の抽選後、自動で再ロック）。</div>
+    <div class="hint">ヒント：店内用コード</div>
+  </div>
+</div>
+
 <script>
-/* ← ここはあなたのGAS WebアプリURL（埋め込み済み） */
+/** ← あなたのGAS WebアプリURL（埋め込み済み） */
 const GAS = "https://script.google.com/macros/s/AKfycbx2kXtpfhtmof_YWD5FEOJVvN03zdnD4yXNysO32DmNcTkXZSEJknF8Wn2mayqlUFFVgg/exec";
 
-function showResult(data){
-  const status = document.getElementById('status');
-  const detail = document.getElementById('detail');
-  const again  = document.getElementById('againBtn');
+/** 設定 */
+const STAFF_CODE = "loo500";
+const RELock_AFTER_MS = 6000; // 抽選後に自動再ロック（6秒）
 
-  if(data.status === 'already'){
-    status.innerHTML = '今日は参加済み🗓️ <span class="warn">また明日！</span>';
-    detail.textContent = '同じ端末からは1日1回までのご参加となります。';
-    again.style.display = 'inline-block';
-    return;
+/** 要素取得 */
+const lockPanel = document.getElementById('lockPanel');
+const drawPanel = document.getElementById('drawPanel');
+const staffBtn  = document.getElementById('staffBtn');
+const codeModal = document.getElementById('codeModal');
+const codeInput = document.getElementById('codeInput');
+const cancelBtn = document.getElementById('cancelBtn');
+const unlockBtn = document.getElementById('unlockBtn');
+const startBtn  = document.getElementById('startBtn');
+const statusEl  = document.getElementById('status');
+const detailEl  = document.getElementById('detail');
+const logoEl    = document.getElementById('logo');
+
+/** 初期：ロック表示 */
+function setLocked(lock=true){
+  lockPanel.style.display = lock ? '' : 'none';
+  drawPanel.style.display = lock ? 'none' : '';
+}
+setLocked(true);
+
+/** スタッフモーダルを開く（右下ボタン or ロゴ長押し） */
+staffBtn.addEventListener('click', () => openModal());
+let longPressTimer=null;
+logoEl.addEventListener('touchstart', () => longPressTimer=setTimeout(openModal, 800));
+logoEl.addEventListener('touchend',   () => clearTimeout(longPressTimer));
+logoEl.addEventListener('mousedown',  () => longPressTimer=setTimeout(openModal, 800));
+logoEl.addEventListener('mouseup',    () => clearTimeout(longPressTimer));
+
+function openModal(){
+  codeModal.classList.add('open');
+  codeModal.setAttribute('aria-hidden','false');
+  codeInput.value=''; codeInput.focus();
+}
+function closeModal(){
+  codeModal.classList.remove('open');
+  codeModal.setAttribute('aria-hidden','true');
+}
+cancelBtn.addEventListener('click', closeModal);
+
+/** 解除処理 */
+unlockBtn.addEventListener('click', () => {
+  const val = (codeInput.value || '').trim();
+  if(!val){ codeInput.focus(); return; }
+  if(val === STAFF_CODE){
+    setLocked(false);
+    closeModal();
+    statusEl.textContent = '準備OK。「START」で抽選します。';
+    detailEl.textContent = '';
+  }else{
+    codeInput.value=''; codeInput.placeholder='コードが違います';
+    codeInput.focus();
   }
+});
 
+/** 抽選実行 */
+async function draw(){
+  startBtn.disabled = true;
+  statusEl.innerHTML = '<span class="spinner"></span>抽選中です…';
+  detailEl.textContent = '';
+  try{
+    const res = await fetch(GAS + '?ua=' + encodeURIComponent(navigator.userAgent), { cache:'no-store' });
+    const data = await res.json();
+    showResult(data);
+  }catch(e){
+    statusEl.textContent = '通信に失敗しました。ネットワークをご確認ください。';
+    detailEl.textContent = '';
+  }finally{
+    // 一定時間後に再ロック
+    setTimeout(() => {
+      setLocked(true);
+      startBtn.disabled = false;
+      statusEl.textContent = 'ロック中です。店員に解除を依頼してください。';
+      detailEl.textContent = '';
+    }, RELock_AFTER_MS);
+  }
+}
+startBtn.addEventListener('click', draw);
+
+/** 結果表示 */
+function showResult(data){
   if(data.status === 'ok'){
     const map = {
       P1: '🎉 <span class="big glow">大当たり！1等</span>',
@@ -162,51 +226,23 @@ function showResult(data){
       P4: '👍 <span class="big">4等</span>',
       P5: '🙂 <span class="big">5等</span>'
     };
-    status.innerHTML = map[data.prize] || (data.label || '結果を表示できませんでした');
-
-    // 景品テキスト（後で自由に編集OK）
+    statusEl.innerHTML = map[data.prize] || (data.label || '結果を表示できませんでした');
     const prizeText = {
-      P1: '（例）ボトル半額券',
-      P2: '（例）ドリンク1杯無料',
-      P3: '（例）300円引き',
-      P4: '（例）100円引き',
-      P5: '（例）参加賞'
+      P1:'MOËTシルバー', P2:'カフェパリ', P3:'焼酎ボトル',
+      P4:'テキーラ or ドリンク1杯無料', P5:'おつまみセット'
     }[data.prize] || '';
-
     const code = data.code ? `<div class="code">クーポンコード：<b>${data.code}</b></div>` : '';
-    detail.innerHTML = `${prizeText}<br>${code}`;
-
-    again.style.display = 'inline-block';
+    detailEl.innerHTML = `${prizeText}<br>${code}`;
     return;
   }
-
-  status.textContent = 'エラーが発生しました。時間をおいて再度お試しください。';
-  detail.textContent = '';
-  again.style.display = 'inline-block';
-}
-
-async function draw(){
-  const status = document.getElementById('status');
-  const detail = document.getElementById('detail');
-  const again  = document.getElementById('againBtn');
-
-  status.innerHTML = '<span class="spinner"></span>抽選中です…';
-  detail.textContent = '';
-  again.style.display = 'none';
-
-  try{
-    const res = await fetch(GAS + '?ua=' + encodeURIComponent(navigator.userAgent), { cache:'no-store' });
-    const data = await res.json();
-    showResult(data);
-  }catch(e){
-    status.textContent = '通信に失敗しました。ネットワークをご確認ください。';
-    detail.textContent = '';
-    again.style.display = 'inline-block';
+  if(data.status === 'already'){
+    statusEl.innerHTML = 'すでに実行済みです。<span class="warn">（制限モードの名残）</span>';
+    detailEl.textContent = '';
+    return;
   }
+  statusEl.textContent = 'エラーが発生しました。時間をおいて再試行してください。';
+  detailEl.textContent = '';
 }
-
-document.getElementById('againBtn').addEventListener('click', draw);
-draw();
 </script>
 </body>
 </html>
