@@ -3,116 +3,108 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#16120b">
+<meta name="theme-color" content="#120e0a">
 <title>MANULLER – GACHA</title>
 <style>
-  :root{
-    --bg:#0b0a08; --panel:#13100d; --edge:#2b2319;
-    --gold:#d4af37; --gold2:#ffe27a; --text:#f7f3e8; --muted:#b7a98a;
-    --vio:#a974ff; --red:#ff5577; --green:#55ff99; --amber:#ffd166;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; color:var(--text);
-    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
-    background:
-      radial-gradient(1200px 600px at 80% -20%, rgba(255,223,110,.25), transparent 60%),
-      radial-gradient(900px 500px at -10% 120%, rgba(212,175,55,.18), transparent 55%),
-      #0b0a08;
-    overflow-x:hidden;
-  }
-  .wrap{min-height:100svh; display:grid; place-items:center; padding:24px}
-  .card{
-    width:min(760px,96vw);
-    background:linear-gradient(180deg, rgba(255,239,180,.06), rgba(0,0,0,.0)), var(--panel);
-    border:1px solid var(--edge); border-radius:22px; padding:22px; position:relative;
-    box-shadow:0 10px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,235,185,.08);
-    overflow:hidden;
-  }
-  .title{display:flex; align-items:center; gap:14px; margin-bottom:8px}
-  .logo{width:46px; height:46px; border-radius:12px; background:conic-gradient(from 20deg, #5a441b, #e0c25a, #7a5c2b, #b7952b, #5a441b);
-    box-shadow:inset 0 0 12px rgba(0,0,0,.35), 0 0 8px rgba(212,175,55,.25)}
-  h1{margin:0; font-size:22px; letter-spacing:.02em}
-  .brand{background:linear-gradient(180deg, var(--gold2), var(--gold) 70%, #b9962a);
-    -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 1px 0 rgba(0,0,0,.4)}
-  .sub{margin:.3rem 0 1rem; color:var(--muted); font-size:14px}
+:root{
+  --bg:#0a0907; --panel:#14110e; --edge:#2b2319;
+  --gold:#d4af37; --gold2:#ffe27a; --txt:#f7f3e8; --muted:#b7a98a;
+  --vio:#a974ff; --green:#50f59c; --red:#ff6d8a; --amber:#ffd166;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;background:#0a0907}
+.wrap{min-height:100svh;display:grid;place-items:center;padding:20px;
+  background:
+    radial-gradient(900px 480px at 80% -10%, rgba(212,175,55,.18), transparent 60%),
+    radial-gradient(800px 440px at -10% 120%, rgba(169,116,255,.14), transparent 60%)}
+.card{width:min(820px,96vw);background:linear-gradient(180deg,rgba(255,239,180,.05),rgba(0,0,0,.0)),var(--panel);
+  border:1px solid var(--edge);border-radius:22px;padding:18px;box-shadow:0 12px 36px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,235,185,.08)}
+.title{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.logo{width:46px;height:46px;border-radius:12px;background:conic-gradient(from 20deg,#5a441b,#e0c25a,#7a5c2b,#b7952b,#5a441b);box-shadow:inset 0 0 12px #0006,0 0 8px #d4af3744}
+h1{margin:0;font-size:22px;letter-spacing:.02em}
+.brand{background:linear-gradient(180deg,var(--gold2),var(--gold) 70%,#b9962a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 1px 0 rgba(0,0,0,.4)}
+.sub{color:var(--muted);font-size:13px}
 
-  /* ===== ガチャ筐体（大きく＆分かりやすく） ===== */
-  .machine{position:relative; border:1px solid #3a2d18; border-radius:18px; padding:16px;
-    background:linear-gradient(180deg,#0f0c0a,#17130f); box-shadow:inset 0 0 18px rgba(0,0,0,.55)}
-  .window{height:180px; border-radius:16px; overflow:hidden; position:relative;
-    background:linear-gradient(180deg,#0b0907,#110e0a); border:1px solid #4d3b21; box-shadow:inset 0 0 16px rgba(0,0,0,.8)}
-  .belt{position:absolute; left:-35%; top:50%; width:170%; display:flex; gap:18px; transform:translateY(-50%); animation:none}
-  .capsule{width:86px; height:86px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#8a2be2,#5a1ea8);
-    border:2px solid #c9b0ff22; box-shadow:inset 0 0 14px #000a, 0 0 16px #6120ff44}
-  .capsule.gold{background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#ffe27a,#d4af37); box-shadow:inset 0 0 14px #000a, 0 0 16px #ffd96655}
-  .capsule.green{background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#66f59a,#18b35a); box-shadow:inset 0 0 14px #000a, 0 0 16px #66ff9855}
-  .capsule.red{background:radial-gradient(circle at 35% 30%, #fff8, transparent 35%), linear-gradient(180deg,#ff7a9b,#d74263); box-shadow:inset 0 0 14px #000a, 0 0 16px #ff7aa855}
+/* ====== ガチャ本体 ====== */
+.machine{position:relative;border:1px solid #3a2d18;border-radius:18px;padding:16px;display:grid;grid-template-columns:1fr 96px;gap:12px;
+  background:linear-gradient(180deg,#0f0c0a,#17130f);box-shadow:inset 0 0 18px rgba(0,0,0,.55)}
+/* ドラム窓 */
+.window{height:190px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg,#0b0907,#110e0a);
+  border:1px solid #4d3b21;box-shadow:inset 0 0 16px rgba(0,0,0,.85)}
+.drum{position:absolute;left:0;right:0;top:50%;height:120px;transform:translateY(-50%);display:flex;gap:18px;justify-content:center}
+.ball{width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#8a2be2,#5a1ea8);
+  box-shadow:inset 0 0 14px #000a,0 0 18px #6120ff44;border:2px solid #c9b0ff22}
+.ball.red{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ff8aa4,#d74366)}
+.ball.green{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#66f59a,#18b35a)}
+.ball.gold{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:inset 0 0 14px #000a,0 0 18px #ffd96655}
 
-  @keyframes spin { 0%{ transform:translate(-35%,-50%) } 100%{ transform:translate(-65%,-50%) } }
-  @keyframes spin-fast { 0%{ transform:translate(-20%,-50%) } 100%{ transform:translate(-80%,-50%) } }
-  @keyframes spin-rev { 0%{ transform:translate(-65%,-50%) } 100%{ transform:translate(-35%,-50%) } }
+/* 回るモーション（横スクロール） */
+@keyframes roll {from{transform:translateY(-50%) translateX(0)} to{transform:translateY(-50%) translateX(-50%)}}
+@keyframes roll-fast {from{transform:translateY(-50%) translateX(0)} to{transform:translateY(-50%) translateX(-80%)}}
+@keyframes roll-rev {from{transform:translateY(-50%) translateX(-50%)} to{transform:translateY(-50%) translateX(0)}}
 
-  .glow{position:absolute; inset:0; pointer-events:none; opacity:.0; transition:opacity .2s ease;
-    background:radial-gradient(520px 140px at 50% 50%, rgba(255,220,120,.22), transparent 55%),
-               radial-gradient(620px 180px at 50% 50%, rgba(169,116,255,.18), transparent 60%);
-    mix-blend-mode:screen}
-  .glow.show{opacity:1}
+/* 排出口（トレイ＆フタ） */
+.tray{grid-column:1/2;margin-top:10px;height:88px;position:relative;display:flex;justify-content:center;align-items:center}
+.slot{width:280px;height:78px;border-radius:16px;background:linear-gradient(180deg,#0d0c0a,#19140f);border:1px solid #4d3b21;box-shadow:inset 0 0 14px rgba(0,0,0,.78);position:relative;overflow:hidden}
+.lid{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(180deg,#221a10,#0c0a08);border-bottom:1px solid #634b24;transform-origin:top;transform:rotateX(0deg);transition:transform .28s ease}
+.drop{width:78px;height:78px;border-radius:50%;position:absolute;left:101px;top:-100px;opacity:0;transition:transform .52s ease, opacity .16s ease}
+.drop.show{opacity:1;transform:translateY(110px)}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(220px 70px at 50% 50%,rgba(255,230,160,.28),transparent 60%);transition:opacity .14s ease}
+.flash.on{opacity:1}
 
-  .gate{margin-top:12px; display:flex; justify-content:center; align-items:center}
-  .chute{width:260px; height:86px; border-radius:16px; position:relative; overflow:hidden;
-    background:linear-gradient(180deg,#0c0a08,#16120e); border:1px solid #4d3b21; box-shadow:inset 0 0 14px rgba(0,0,0,.75)}
-  .flash{position:absolute; inset:0; pointer-events:none; opacity:0; background:radial-gradient(220px 70px at 50% 50%, rgba(255,230,160,.28), transparent 60%); transition:opacity .14s ease}
-  .flash.on{opacity:1}
-  .drop{width:78px; height:78px; border-radius:50%; position:absolute; left:91px; top:-100px; opacity:0;
-    transition:transform .54s ease, opacity .18s ease}
-  .drop.show{opacity:1; transform:translateY(112px)}
+/* レバー */
+.leverWrap{grid-column:2/3;display:grid;place-items:center}
+.leverBase{width:80px;height:160px;border-radius:14px;border:1px solid #3a2d18;background:linear-gradient(180deg,#120f0c,#19140f);box-shadow:inset 0 0 14px rgba(0,0,0,.6)}
+.lever{width:18px;height:86px;background:#604a2b;border-radius:10px;margin:14px auto 0;position:relative;transform-origin:top center;transition:transform .16s ease}
+.knob{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 16px #ffd16655;position:absolute;left:50%;top:70px;transform:translateX(-50%)}
 
-  .bolt{position:absolute; inset:0; display:none; pointer-events:none; z-index:2;
-    background:repeating-linear-gradient(115deg, transparent 0 48px, rgba(255,255,255,.06) 48px 49px),
-               radial-gradient(400px 140px at 50% 40%, rgba(255,225,150,.22), transparent 60%)}
-  .bolt::after{content:""; position:absolute; left:50%; top:7%; width:8px; height:140px; transform:translateX(-50%) rotate(6deg);
-    background:linear-gradient(180deg,#fff,#ffd966 60%, transparent); filter:blur(1px); box-shadow:0 0 24px #ffd966aa, 0 0 40px #ffd96666}
-  .bolt.show{display:block}
+/* 演出オーバーレイ */
+.glow{position:absolute;inset:0;pointer-events:none;opacity:.0;transition:opacity .18s ease;background:
+  radial-gradient(560px 160px at 50% 50%,rgba(255,220,120,.22),transparent 55%),
+  radial-gradient(640px 200px at 50% 50%,rgba(169,116,255,.18),transparent 60%);mix-blend-mode:screen}
+.glow.show{opacity:1}
+.pillar{position:absolute;left:50%;top:14%;width:16px;height:250px;transform:translateX(-50%);display:none;border-radius:12px;z-index:2;
+  background:linear-gradient(180deg,transparent,#ffe27a 35%,#fff 50%,#ffe27a 65%,transparent);box-shadow:0 0 36px #ffe27a,0 0 60px #ffd166}
+.pillar.show{display:block}
+.bolt{position:absolute;inset:0;display:none;z-index:2;background:
+  repeating-linear-gradient(115deg,transparent 0 48px,rgba(255,255,255,.06) 48px 49px),
+  radial-gradient(420px 140px at 50% 40%,rgba(255,225,150,.22),transparent 60%)}
+.bolt::after{content:"";position:absolute;left:50%;top:8%;width:8px;height:140px;transform:translateX(-50%) rotate(6deg);
+  background:linear-gradient(180deg,#fff,#ffd966 60%,transparent);filter:blur(1px);box-shadow:0 0 24px #ffd966aa,0 0 40px #ffd96666}
+.bolt.show{display:block}
 
-  .pillar{position:absolute; left:50%; top:18%; width:16px; height:240px; transform:translateX(-50%);
-    background:linear-gradient(180deg, transparent, #ffe27a 35%, #fff 50%, #ffe27a 65%, transparent);
-    box-shadow:0 0 36px #ffe27a, 0 0 60px #ffd166; border-radius:12px; display:none; z-index:2}
-  .pillar.show{display:block}
+/* 情報/ボタン */
+.panel{margin-top:12px;padding:14px;border:1px solid #3a2d18;border-radius:14px;background:#100e0b}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-block;cursor:pointer;user-select:none;padding:12px 18px;border-radius:12px;font-weight:800;letter-spacing:.02em;
+  color:#100e0b;background:linear-gradient(180deg,var(--gold2),var(--gold));border:1px solid #b9962a;box-shadow:0 6px 16px rgba(212,175,55,.25),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:active{transform:translateY(1px)}
+.result{font-size:20px;line-height:1.7}
+.muted{color:var(--muted)}
 
-  .panel{margin-top:12px; padding:14px; border:1px solid #3a2d18; border-radius:14px; background:#100e0b}
-  .result{font-size:20px; line-height:1.7}
-  .muted{color:var(--muted)}
-  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between}
-  .btn{display:inline-block; cursor:pointer; user-select:none; padding:12px 18px; border-radius:12px; font-weight:800; letter-spacing:.02em;
-    color:#100e0b; background:linear-gradient(180deg, var(--gold2), var(--gold)); border:1px solid #b9962a; box-shadow:0 6px 16px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,255,255,.35)}
-  .btn:active{transform:translateY(1px)}
+/* バナー */
+.banner{margin-top:10px;padding:14px;border-radius:14px;text-align:center;font-weight:900;letter-spacing:.02em;display:none}
+.banner.show{display:block}
+.b-p1{background:linear-gradient(180deg,#fff6cc,#ffd166);color:#5a4100;box-shadow:0 0 22px rgba(255,209,102,.28)}
+.b-p2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6);color:#50121f}
+.b-p3{background:linear-gradient(180deg,#e5d2ff,#bda0ff);color:#2a1552}
+.b-p4{background:linear-gradient(180deg,#d4ffe4,#9cfabf);color:#134a2b}
+.b-p5{background:linear-gradient(180deg,#e9eef5,#cbd6e6);color:#203244}
 
-  /* 大きな結果バナー */
-  .banner{margin-top:10px; padding:14px; border-radius:14px; text-align:center; font-weight:900; letter-spacing:.02em; display:none}
-  .banner.show{display:block}
-  .b-p1{background:linear-gradient(180deg,#fff6cc,#ffd166); color:#5a4100; box-shadow:0 0 22px rgba(255,209,102,.28)}
-  .b-p2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6); color:#50121f}
-  .b-p3{background:linear-gradient(180deg,#e5d2ff,#bda0ff); color:#2a1552}
-  .b-p4{background:linear-gradient(180deg,#d4ffe4,#9cfabf); color:#134a2b}
-  .b-p5{background:linear-gradient(180deg,#e9eef5,#cbd6e6); color:#203244}
-
-  /* STAFF */
-  .staff{position:fixed; right:14px; bottom:14px; z-index:5; opacity:.85}
-  .staff .btn{padding:8px 10px}
-  .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.55); z-index:10}
-  .modal.open{display:grid}
-  .dialog{width:min(420px,92vw); background:#111; border:1px solid #3a2d18; border-radius:14px; padding:16px 16px 18px}
-  .dialog h2{margin:0 0 8px; font-size:18px}
-  .input{width:100%; font-size:18px; padding:10px 12px; border-radius:10px; border:1px solid #3a2d18; background:#0d0c0a; color:#fff}
-  .row2{display:flex; gap:8px; margin-top:10px; justify-content:flex-end}
-  .small{font-size:12px; color:#a8946a; margin-top:6px}
-
-  .overlay{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.55); z-index:9}
-  .overlay.show{display:grid}
-  .spinner{width:24px; height:24px; border:3px solid #3e321a; border-top-color:var(--gold2); border-radius:50%; animation:spin .9s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
+/* STAFF / モーダル / ローディング */
+.staff{position:fixed;right:14px;bottom:14px;z-index:5;opacity:.9}
+.staff .btn{padding:8px 10px}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:10}
+.modal.open{display:grid}
+.dialog{width:min(420px,92vw);background:#111;border:1px solid #3a2d18;border-radius:14px;padding:16px 16px 18px}
+.input{width:100%;font-size:18px;padding:10px 12px;border-radius:10px;border:1px solid #3a2d18;background:#0d0c0a;color:#fff}
+.row2{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.small{font-size:12px;color:#a8946a;margin-top:6px}
+.overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:9}
+.overlay.show{display:grid}
+.spinner{width:24px;height:24px;border:3px solid #3e321a;border-top-color:var(--gold2);border-radius:50%;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
@@ -128,35 +120,47 @@
     </div>
 
     <div class="machine">
+      <!-- ドラム窓 -->
       <div class="window">
         <div class="glow" id="glow"></div>
-        <div class="bolt" id="bolt"></div>
         <div class="pillar" id="pillar"></div>
-        <div class="belt" id="belt">
-          <div class="capsule"></div><div class="capsule red"></div><div class="capsule green"></div>
-          <div class="capsule"></div><div class="capsule red"></div><div class="capsule green"></div>
-          <div class="capsule"></div><div class="capsule red"></div><div class="capsule green"></div>
-          <div class="capsule"></div><div class="capsule gold"></div>
+        <div class="bolt" id="bolt"></div>
+        <div class="drum" id="drum">
+          <!-- 見た目だけの玉（横に長く並べる） -->
+          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
+          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
+          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
+          <div class="ball"></div><div class="ball gold"></div>
         </div>
       </div>
-      <div class="gate">
-        <div class="chute" id="chute">
+
+      <!-- レバー -->
+      <div class="leverWrap">
+        <div class="leverBase">
+          <div class="lever" id="lever"><div class="knob"></div></div>
+        </div>
+      </div>
+
+      <!-- 排出口 -->
+      <div class="tray">
+        <div class="slot" id="slot">
+          <div class="lid" id="lid"></div>
           <div class="flash" id="flash"></div>
-          <div class="drop capsule" id="drop"></div>
+          <div class="drop ball" id="drop"></div>
         </div>
       </div>
     </div>
 
     <!-- ロック/抽選 -->
     <div class="panel" id="lockPanel">
-      <div class="result">🔒 現在ロックされています。<br><span class="muted">店員に解除を依頼してください。</span></div>
+      <div class="result">🔒 現在ロック中。<br><span class="muted">店員に解除を依頼してください。</span></div>
     </div>
     <div class="panel" id="drawPanel" style="display:none">
       <div id="status" class="result">準備OK。<span class="muted">「START」で抽選します。</span></div>
       <div id="detail" class="muted"></div>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="startBtn">START</button>
-        <button class="btn" id="lockBtn" style="display:none">終了してロック</button>
+        <button class="btn" id="lockBtn" style="margin-left:auto;display:none">終了してロック</button>
       </div>
       <div id="banner" class="banner"></div>
     </div>
@@ -169,16 +173,15 @@
 <div class="staff"><button class="btn" id="staffBtn">STAFF</button></div>
 <div class="modal" id="codeModal" aria-hidden="true">
   <div class="dialog">
-    <h2>解除コードを入力してください</h2>
-    <input id="codeInput" class="input" type="password" placeholder="コード" autocomplete="one-time-code" inputmode="text">
+    <h2>解除コード</h2>
+    <input id="codeInput" class="input" type="password" placeholder="loo500" autocomplete="one-time-code">
     <div class="row2">
       <button class="btn" id="cancelBtn" type="button">キャンセル</button>
       <button class="btn" id="unlockBtn" type="button">解除</button>
     </div>
-    <div class="small">成功すると抽選画面に切り替わります（抽選後は「終了してロック」を押してください）。</div>
+    <div class="small">解除後は抽選できます。抽選後は「終了してロック」を押してください。</div>
   </div>
 </div>
-
 <div class="overlay" id="overlay"><div class="spinner"></div></div>
 
 <script>
@@ -194,7 +197,6 @@ const lockBtn  =document.getElementById('lockBtn');
 const statusEl =document.getElementById('status');
 const detailEl =document.getElementById('detail');
 const banner   =document.getElementById('banner');
-
 const staffBtn =document.getElementById('staffBtn');
 const codeModal=document.getElementById('codeModal');
 const codeInput=document.getElementById('codeInput');
@@ -202,57 +204,59 @@ const cancelBtn=document.getElementById('cancelBtn');
 const unlockBtn=document.getElementById('unlockBtn');
 const logoEl   =document.getElementById('logo');
 
-const belt   =document.getElementById('belt');
-const glow   =document.getElementById('glow');
-const bolt   =document.getElementById('bolt');
-const pillar =document.getElementById('pillar');
-const flash  =document.getElementById('flash');
-const drop   =document.getElementById('drop');
-const overlay= document.getElementById('overlay');
+const drum  =document.getElementById('drum');
+const glow  =document.getElementById('glow');
+const pillar=document.getElementById('pillar');
+const bolt  =document.getElementById('bolt');
+const lid   =document.getElementById('lid');
+const flash =document.getElementById('flash');
+const drop  =document.getElementById('drop');
+const lever =document.getElementById('lever');
+const overlay=document.getElementById('overlay');
 
-/* ===== 初期：ロック ===== */
+/* ===== ロック制御 ===== */
 function setLocked(lock=true){
-  lockPanel.style.display = lock ? '' : 'none';
-  drawPanel.style.display = lock ? 'none' : '';
+  lockPanel.style.display=lock?'':'none';
+  drawPanel.style.display=lock?'none':'';
   if(lock){
     startBtn.disabled=false; lockBtn.style.display='none';
     statusEl.textContent='準備OK。「START」で抽選します。'; detailEl.textContent='';
-    banner.className='banner'; banner.textContent=''; // hide
+    banner.className='banner'; banner.textContent='';
     resetScene();
   }
 }
 setLocked(true);
 
-/* STAFFモーダル（ボタン/ロゴ長押し） */
+/* STAFF（ボタン & ロゴ長押し） */
 staffBtn.addEventListener('click', openModal);
 let t=null;
 ['touchstart','mousedown'].forEach(ev=>logoEl.addEventListener(ev,()=>t=setTimeout(openModal,800)));
 ['touchend','mouseup','mouseleave'].forEach(ev=>logoEl.addEventListener(ev,()=>clearTimeout(t)));
 cancelBtn.addEventListener('click', closeModal);
 unlockBtn.addEventListener('click', ()=>{
-  const v=(codeInput.value||'').trim();
-  if(!v){ codeInput.focus(); return; }
-  if(v===STAFF_CODE){ setLocked(false); closeModal(); } else { codeInput.value=''; codeInput.placeholder='コードが違います'; codeInput.focus(); }
+  if((codeInput.value||'').trim()===STAFF_CODE){ setLocked(false); closeModal(); } else { codeInput.value=''; codeInput.placeholder='コードが違います'; codeInput.focus(); }
 });
-function openModal(){ codeModal.classList.add('open'); codeModal.setAttribute('aria-hidden','false'); codeInput.value=''; codeInput.focus(); }
-function closeModal(){ codeModal.classList.remove('open'); codeModal.setAttribute('aria-hidden','true'); }
+function openModal(){ codeModal.classList.add('open'); codeInput.value=''; codeInput.focus(); }
+function closeModal(){ codeModal.classList.remove('open'); }
 
-/* ===== 演出：準備/リセット ===== */
+/* ===== リセット ===== */
 function resetScene(){
-  belt.style.animation='none';
-  glow.classList.remove('show'); bolt.classList.remove('show'); pillar.classList.remove('show');
-  flash.classList.remove('on'); drop.classList.remove('show'); drop.className='drop capsule';
+  drum.style.animation='none';
+  lever.style.transform='rotate(0deg)';
+  glow.classList.remove('show'); pillar.classList.remove('show'); bolt.classList.remove('show');
+  lid.style.transform='rotateX(0deg)'; flash.classList.remove('on');
+  drop.className='drop ball'; drop.style.opacity=0; drop.style.transform='translateY(0)';
 }
 
-/* ===== 効果音（WebAudio簡易） ===== */
+/* ===== 効果音（簡易WebAudio） ===== */
 let audioCtx=null;
 function initAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }
-function beep({f=600,d=0.1,t='square',g=0.06}={}){ if(!audioCtx) return; const o=audioCtx.createOscillator(), v=audioCtx.createGain();
+function beep({f=600,d=.1,t='square',g=.06}={}){ if(!audioCtx) return; const o=audioCtx.createOscillator(), v=audioCtx.createGain();
   o.type=t; o.frequency.value=f; v.gain.value=g; o.connect(v); v.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+d); }
-const SE = {
+const SE={
   lever:()=>{ beep({f:220,d:.07,t:'sawtooth',g:.08}); setTimeout(()=>beep({f:160,d:.06,t:'square',g:.06}),70); },
   spin :()=>{ if(!audioCtx) return; const o=audioCtx.createOscillator(), v=audioCtx.createGain(); o.type='triangle';
-    o.frequency.setValueAtTime(90,audioCtx.currentTime); v.gain.setValueAtTime(0.014,audioCtx.currentTime);
+    o.frequency.setValueAtTime(95,audioCtx.currentTime); v.gain.setValueAtTime(0.016,audioCtx.currentTime);
     o.connect(v); v.connect(audioCtx.destination); o.start(); setTimeout(()=>{v.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.stop(audioCtx.currentTime+0.14);},360); },
   rev  :()=>{ beep({f:520,d:.06,t:'sawtooth',g:.06}); setTimeout(()=>beep({f:380,d:.08,t:'triangle',g:.05}),60); },
   pop  :()=>beep({f:660,d:.08,t:'square',g:.06}),
@@ -262,96 +266,86 @@ const SE = {
 
 /* ===== START ===== */
 startBtn.addEventListener('click', draw);
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 async function draw(){
   startBtn.disabled=true; lockBtn.style.display='none';
-  initAudio(); SE.lever();
+  initAudio();
+  // レバーを引く演出
+  lever.style.transform='rotate(28deg)'; SE.lever(); setTimeout(()=>lever.style.transform='rotate(0deg)',160);
 
-  // まず見た目スピン
+  // ドラム回転（見た目）
   resetScene(); glow.classList.add('show');
-  belt.style.animation='spin 1.15s linear infinite'; SE.spin();
+  drum.style.animation='roll 1.2s linear infinite'; SE.spin();
 
   // 抽選
   overlay.classList.add('show');
-  let data=null;
-  try{
+  let data=null; try{
     const res=await fetch(GAS+'?ua='+encodeURIComponent(navigator.userAgent),{cache:'no-store'});
     data=await res.json();
   }catch(e){}
   overlay.classList.remove('show');
 
-  if(!data || !data.status){ statusEl.textContent='通信に失敗しました。もう一度お試しください。'; startBtn.disabled=false; return; }
-
+  if(!data || !data.status){
+    statusEl.textContent='通信に失敗しました。もう一度お試しください。';
+    startBtn.disabled=false; return;
+  }
   if(data.status==='ok'){ await playByPrize(data.prize); showResult(data.prize); return; }
 
-  // 万一 “already” が返った場合はP5演出に
+  // 万一already → 5等演出
   await playByPrize('P5'); statusEl.textContent='（参考）以前の制限モードの応答：already'; lockBtn.style.display='inline-block'; startBtn.disabled=false;
 }
 
-/* ===== 等級別演出（明瞭版） ===== */
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
+/* ===== 等級別の演出（A＝控えめ） ===== */
 async function playByPrize(p){
-  if(p==='P1'){ // 金・確定
-    belt.style.animation='spin-fast .95s linear infinite'; SE.spin();
-    await sleep(650);
-    pillar.classList.add('show'); await sleep(250);
-    bolt.classList.add('show'); await sleep(200);
-    await dispense('gold',true); SE.fan1(); confettiMax();
-  }
-  else if(p==='P2'){ // 激アツ
-    bolt.classList.add('show');
-    belt.style.animation='spin-fast .9s linear infinite'; SE.spin();
-    await sleep(750);
-    await dispense('red',true); SE.fan2(); confettiMid();
-  }
-  else if(p==='P3'){ // 逆回転（短く1回）
-    belt.style.animation='spin 1.05s linear infinite'; SE.spin();
-    await sleep(900);
-    SE.rev(); belt.style.animation='spin-rev 0.12s linear 1'; await sleep(130);
-    belt.style.animation='spin 1.2s linear infinite'; await sleep(260);
-    await dispense('',true); SE.pop(); confettiLite();
-  }
-  else if(p==='P4'){
-    glow.classList.add('show'); belt.style.animation='spin 1.2s linear infinite'; SE.spin();
-    await sleep(900); flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
-    await dispense('green',false); SE.pop();
-  }
-  else{ // P5
-    belt.style.animation='spin 1.15s linear infinite'; SE.spin();
-    await sleep(850); await dispense('',false); SE.pop();
+  if(p==='P1'){ // 金光柱→フタ開→排出→開封
+    drum.style.animation='roll-fast .95s linear infinite'; SE.spin();
+    await sleep(600); pillar.classList.add('show'); await sleep(240); bolt.classList.add('show'); await sleep(180);
+    await dispense('gold'); SE.fan1(); confettiMax();
+  }else if(p==='P2'){ // 稲妻＋加速
+    bolt.classList.add('show'); drum.style.animation='roll-fast .9s linear infinite'; SE.spin();
+    await sleep(700); await dispense('red'); SE.fan2(); confettiMid();
+  }else if(p==='P3'){ // 逆回転チラ（0.12s）
+    drum.style.animation='roll 1.05s linear infinite'; SE.spin(); await sleep(850);
+    SE.rev(); drum.style.animation='roll-rev .12s linear 1'; await sleep(130);
+    drum.style.animation='roll 1.18s linear infinite'; await sleep(260);
+    await dispense(''); SE.pop(); confettiLite();
+  }else if(p==='P4'){
+    drum.style.animation='roll 1.18s linear infinite'; await sleep(800); await dispense('green'); SE.pop();
+  }else{
+    drum.style.animation='roll 1.15s linear infinite'; await sleep(780); await dispense(''); SE.pop();
   }
 }
-
-async function dispense(color='', big=false){
-  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'), 160);
-  drop.className='drop capsule';
+async function dispense(color=''){
+  // フタ開 → コロン → パカッ
+  lid.style.transform='rotateX(88deg)';
+  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
+  drop.className='drop ball';
   if(color==='gold') drop.classList.add('gold');
   if(color==='green') drop.classList.add('green');
   if(color==='red')   drop.classList.add('red');
-  drop.style.opacity=0; drop.style.transform='translateY(0)';
-  await sleep(60);
-  drop.classList.add('show');
-  await sleep(460);
-  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'), 160);
+  drop.style.opacity=0; drop.style.transform='translateY(0)'; await sleep(40);
+  drop.classList.add('show'); await sleep(460);
+  flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
+  // フタ閉
+  setTimeout(()=>lid.style.transform='rotateX(0deg)',120);
 }
 
 /* 紙吹雪 */
-function confettiLite(){ confetti({particleCount:140, spread:70, origin:{y:0.3}}); }
-function confettiMid(){ confetti({particleCount:220, spread:75, origin:{y:0.3}}); }
+function confettiLite(){ confetti({particleCount:120, spread:70, origin:{y:0.3}}) }
+function confettiMid(){ confetti({particleCount:200, spread:75, origin:{y:0.3}}) }
 function confettiMax(){
-  confetti({particleCount:330, spread:80, startVelocity:55, ticks:200, origin:{y:0.3}, colors:['#fff6cc','#ffe082','#ffd54f','#d4af37']});
-  setTimeout(()=>confetti({particleCount:220, spread:70, origin:{y:0.3}}),160);
+  confetti({particleCount:320, spread:80, startVelocity:55, ticks:200, origin:{y:0.3}, colors:['#fff6cc','#ffe082','#ffd54f','#d4af37']});
+  setTimeout(()=>confetti({particleCount:200, spread:70, origin:{y:0.3}}),160);
 }
 
-/* 結果表示（大きいバナーで分かりやすく） */
+/* 結果表示（でかバナー） */
 function showResult(p){
-  const label = {P1:'🎉 大当たり！1等', P2:'✨ 2等 当たり！', P3:'😊 3等', P4:'👍 4等', P5:'🙂 5等'}[p] || '結果';
-  const prize = {P1:'MOËTシルバー', P2:'カフェパリ', P3:'焼酎ボトル', P4:'テキーラ or ドリンク1杯無料', P5:'おつまみセット'}[p] || '';
-  statusEl.textContent = label;
-  detailEl.textContent = prize;
-  banner.className = 'banner show ' + (p==='P1'?'b-p1':p==='P2'?'b-p2':p==='P3'?'b-p3':p==='P4'?'b-p4':'b-p5');
-  banner.textContent = label + '  –  ' + prize;
+  const label={P1:'🎉 大当たり！1等',P2:'✨ 2等 当たり！',P3:'😊 3等',P4:'👍 4等',P5:'🙂 5等'}[p]||'結果';
+  const prize={P1:'MOËTシルバー',P2:'カフェパリ',P3:'焼酎ボトル',P4:'テキーラ or ドリンク1杯無料',P5:'おつまみセット'}[p]||'';
+  statusEl.textContent=label; detailEl.textContent=prize;
+  banner.className='banner show '+(p==='P1'?'b-p1':p==='P2'?'b-p2':p==='P3'?'b-p3':p==='P4'?'b-p4':'b-p5');
+  banner.textContent=label+'  –  '+prize;
   lockBtn.style.display='inline-block';
   startBtn.disabled=false;
 }
