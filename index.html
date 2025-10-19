@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#120e0a">
+<meta name="theme-color" content="#100d0a">
 <title>MANULLER – GACHA</title>
 <style>
 :root{
-  --bg:#0a0907; --panel:#14110e; --edge:#2b2319;
+  --bg:#0a0907; --panel:#15110e; --edge:#2b2319;
   --gold:#d4af37; --gold2:#ffe27a; --txt:#f7f3e8; --muted:#b7a98a;
-  --vio:#a974ff; --green:#50f59c; --red:#ff6d8a; --amber:#ffd166;
+  --vio:#a974ff; --red:#ff6d8a; --green:#55f59a; --amber:#ffd166;
 }
 *{box-sizing:border-box}
 body{margin:0;color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;background:#0a0907}
@@ -26,38 +26,70 @@ h1{margin:0;font-size:22px;letter-spacing:.02em}
 .sub{color:var(--muted);font-size:13px}
 
 /* ====== ガチャ本体 ====== */
-.machine{position:relative;border:1px solid #3a2d18;border-radius:18px;padding:16px;display:grid;grid-template-columns:1fr 96px;gap:12px;
+.machine{position:relative;border:1px solid #3a2d18;border-radius:18px;padding:16px;display:grid;grid-template-columns:1fr 92px;gap:12px;
   background:linear-gradient(180deg,#0f0c0a,#17130f);box-shadow:inset 0 0 18px rgba(0,0,0,.55)}
-/* ドラム窓 */
-.window{height:190px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg,#0b0907,#110e0a);
+
+/* 窓（ドラム＋カプセル） */
+.window{height:196px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg,#0b0907,#110e0a);
   border:1px solid #4d3b21;box-shadow:inset 0 0 16px rgba(0,0,0,.85)}
-.drum{position:absolute;left:0;right:0;top:50%;height:120px;transform:translateY(-50%);display:flex;gap:18px;justify-content:center}
+/* ドラムの“縞模様”で回転感を出す */
+.drumStripe{
+  position:absolute; inset:0; opacity:.25; mix-blend-mode:screen; pointer-events:none;
+  background:repeating-linear-gradient(90deg, #ffffff10 0 18px, #0000 18px 34px);
+  transform:translateX(0);
+}
+@keyframes drum-move { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes drum-move-fast { from{transform:translateX(0)} to{transform:translateX(-80%)} }
+@keyframes drum-move-rev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+
+/* 横ベルト（見えるカプセルが流れる）*/
+.belt{position:absolute; left:0; top:50%; width:200%; transform:translateY(-50%); display:flex; gap:18px; padding-left:16px}
 .ball{width:96px;height:96px;border-radius:50%;
   background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#8a2be2,#5a1ea8);
   box-shadow:inset 0 0 14px #000a,0 0 18px #6120ff44;border:2px solid #c9b0ff22}
 .ball.red{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ff8aa4,#d74366)}
 .ball.green{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#66f59a,#18b35a)}
-.ball.gold{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:inset 0 0 14px #000a,0 0 18px #ffd96655}
+.ball.gold{background:radial-gradient(circle at 34% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 18px #ffd96655,inset 0 0 14px #000a}
 
-/* 回るモーション（横スクロール） */
-@keyframes roll {from{transform:translateY(-50%) translateX(0)} to{transform:translateY(-50%) translateX(-50%)}}
-@keyframes roll-fast {from{transform:translateY(-50%) translateX(0)} to{transform:translateY(-50%) translateX(-80%)}}
-@keyframes roll-rev {from{transform:translateY(-50%) translateX(-50%)} to{transform:translateY(-50%) translateX(0)}}
-
-/* 排出口（トレイ＆フタ） */
-.tray{grid-column:1/2;margin-top:10px;height:88px;position:relative;display:flex;justify-content:center;align-items:center}
-.slot{width:280px;height:78px;border-radius:16px;background:linear-gradient(180deg,#0d0c0a,#19140f);border:1px solid #4d3b21;box-shadow:inset 0 0 14px rgba(0,0,0,.78);position:relative;overflow:hidden}
-.lid{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(180deg,#221a10,#0c0a08);border-bottom:1px solid #634b24;transform-origin:top;transform:rotateX(0deg);transition:transform .28s ease}
-.drop{width:78px;height:78px;border-radius:50%;position:absolute;left:101px;top:-100px;opacity:0;transition:transform .52s ease, opacity .16s ease}
-.drop.show{opacity:1;transform:translateY(110px)}
-.flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(220px 70px at 50% 50%,rgba(255,230,160,.28),transparent 60%);transition:opacity .14s ease}
+/* 排出口（フタ＋カプセル＋割れる演出） */
+.tray{grid-column:1/2;margin-top:10px;height:110px;position:relative;display:flex;justify-content:center;align-items:flex-start}
+.slot{width:320px;height:94px;border-radius:18px;background:linear-gradient(180deg,#0d0c0a,#19140f);border:1px solid #4d3b21;box-shadow:inset 0 0 16px rgba(0,0,0,.78);position:relative;overflow:hidden}
+.lid{position:absolute;left:0;right:0;top:0;height:38px;background:linear-gradient(180deg,#221a10,#0c0a08);border-bottom:1px solid #634b24;transform-origin:top;transform:rotateX(0deg);transition:transform .26s ease}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(240px 80px at 50% 55%,rgba(255,230,160,.35),transparent 60%);transition:opacity .14s ease}
 .flash.on{opacity:1}
+
+/* カプセルが“割れて”中身が現れる */
+.capsWrap{position:absolute; left:50%; top:-110px; width:120px; height:120px; transform:translateX(-50%); opacity:0;
+  transition:transform .56s ease, opacity .16s ease}
+.capsWrap.show{opacity:1; transform:translate(-50%, 84px)}
+.half{position:absolute; width:96px; height:48px; left:50%; transform:translateX(-50%); border-radius:48px 48px 0 0;
+  background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#8a2be2,#5a1ea8); box-shadow:inset 0 0 12px #000a}
+.half.bottom{top:48px; border-radius:0 0 48px 48px}
+.capsWrap.gold .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#ffe27a,#d4af37) }
+.capsWrap.green .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#66f59a,#18b35a) }
+.capsWrap.red   .half{ background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%), linear-gradient(180deg,#ff8aa4,#d74366) }
+
+/* ぱかっ */
+.capsWrap.open .half.top{ animation:cap-open-top .28s ease forwards }
+.capsWrap.open .half.bottom{ animation:cap-open-bottom .28s ease forwards }
+@keyframes cap-open-top { to { transform:translateX(-120%) rotate(-18deg) } }
+@keyframes cap-open-bottom { to { transform:translateX(20%) rotate(18deg) } }
+
+/* 中身カード */
+.ticket{position:absolute; left:50%; top:34px; transform:translate(-50%,-8px) scale(.9); opacity:0;
+  background:#111; color:#111; border-radius:10px; padding:8px 12px; font-weight:900; letter-spacing:.02em}
+.capsWrap.show .ticket{opacity:1; transform:translate(-50%,0) scale(1)}
+.t1{background:linear-gradient(180deg,#fff6cc,#ffd166); color:#5a4100; box-shadow:0 0 18px #ffd16655}
+.t2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6); color:#50121f}
+.t3{background:linear-gradient(180deg,#e5d2ff,#bda0ff); color:#2a1552}
+.t4{background:linear-gradient(180deg,#d4ffe4,#9cfabf); color:#134a2b}
+.t5{background:linear-gradient(180deg,#e9eef5,#cbd6e6); color:#203244}
 
 /* レバー */
 .leverWrap{grid-column:2/3;display:grid;place-items:center}
-.leverBase{width:80px;height:160px;border-radius:14px;border:1px solid #3a2d18;background:linear-gradient(180deg,#120f0c,#19140f);box-shadow:inset 0 0 14px rgba(0,0,0,.6)}
-.lever{width:18px;height:86px;background:#604a2b;border-radius:10px;margin:14px auto 0;position:relative;transform-origin:top center;transition:transform .16s ease}
-.knob{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 16px #ffd16655;position:absolute;left:50%;top:70px;transform:translateX(-50%)}
+.leverBase{width:80px;height:170px;border-radius:14px;border:1px solid #3a2d18;background:linear-gradient(180deg,#120f0c,#19140f);box-shadow:inset 0 0 14px rgba(0,0,0,.6)}
+.lever{width:18px;height:92px;background:#604a2b;border-radius:10px;margin:16px auto 0;position:relative;transform-origin:top center;transition:transform .16s ease}
+.knob{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 36%),linear-gradient(180deg,#ffe27a,#d4af37);box-shadow:0 0 18px #ffd16655;position:absolute;left:50%;top:76px;transform:translateX(-50%)}
 
 /* 演出オーバーレイ */
 .glow{position:absolute;inset:0;pointer-events:none;opacity:.0;transition:opacity .18s ease;background:
@@ -74,7 +106,7 @@ h1{margin:0;font-size:22px;letter-spacing:.02em}
   background:linear-gradient(180deg,#fff,#ffd966 60%,transparent);filter:blur(1px);box-shadow:0 0 24px #ffd966aa,0 0 40px #ffd96666}
 .bolt.show{display:block}
 
-/* 情報/ボタン */
+/* 情報/ボタン・バナー */
 .panel{margin-top:12px;padding:14px;border:1px solid #3a2d18;border-radius:14px;background:#100e0b}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn{display:inline-block;cursor:pointer;user-select:none;padding:12px 18px;border-radius:12px;font-weight:800;letter-spacing:.02em;
@@ -82,15 +114,13 @@ h1{margin:0;font-size:22px;letter-spacing:.02em}
 .btn:active{transform:translateY(1px)}
 .result{font-size:20px;line-height:1.7}
 .muted{color:var(--muted)}
-
-/* バナー */
 .banner{margin-top:10px;padding:14px;border-radius:14px;text-align:center;font-weight:900;letter-spacing:.02em;display:none}
 .banner.show{display:block}
-.b-p1{background:linear-gradient(180deg,#fff6cc,#ffd166);color:#5a4100;box-shadow:0 0 22px rgba(255,209,102,.28)}
-.b-p2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6);color:#50121f}
-.b-p3{background:linear-gradient(180deg,#e5d2ff,#bda0ff);color:#2a1552}
-.b-p4{background:linear-gradient(180deg,#d4ffe4,#9cfabf);color:#134a2b}
-.b-p5{background:linear-gradient(180deg,#e9eef5,#cbd6e6);color:#203244}
+.b1{background:linear-gradient(180deg,#fff6cc,#ffd166);color:#5a4100}
+.b2{background:linear-gradient(180deg,#ffd6e3,#ff9bb6);color:#50121f}
+.b3{background:linear-gradient(180deg,#e5d2ff,#bda0ff);color:#2a1552}
+.b4{background:linear-gradient(180deg,#d4ffe4,#9cfabf);color:#134a2b}
+.b5{background:linear-gradient(180deg,#e9eef5,#cbd6e6);color:#203244}
 
 /* STAFF / モーダル / ローディング */
 .staff{position:fixed;right:14px;bottom:14px;z-index:5;opacity:.9}
@@ -120,17 +150,20 @@ h1{margin:0;font-size:22px;letter-spacing:.02em}
     </div>
 
     <div class="machine">
-      <!-- ドラム窓 -->
+      <!-- 窓：ドラム＋カプセル -->
       <div class="window">
         <div class="glow" id="glow"></div>
         <div class="pillar" id="pillar"></div>
         <div class="bolt" id="bolt"></div>
-        <div class="drum" id="drum">
-          <!-- 見た目だけの玉（横に長く並べる） -->
+        <div class="drumStripe" id="stripe"></div>
+        <div class="belt" id="belt">
+          <!-- たくさん流す（視覚的に“回転中”を作る） -->
           <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
           <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
           <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
           <div class="ball"></div><div class="ball gold"></div>
+          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
+          <div class="ball"></div><div class="ball red"></div><div class="ball green"></div>
         </div>
       </div>
 
@@ -141,12 +174,18 @@ h1{margin:0;font-size:22px;letter-spacing:.02em}
         </div>
       </div>
 
-      <!-- 排出口 -->
+      <!-- 排出口（フタ→コロン→割れる） -->
       <div class="tray">
         <div class="slot" id="slot">
           <div class="lid" id="lid"></div>
           <div class="flash" id="flash"></div>
-          <div class="drop ball" id="drop"></div>
+
+          <!-- 割れるカプセル -->
+          <div class="capsWrap" id="caps">
+            <div class="half top"></div>
+            <div class="half bottom"></div>
+            <div id="ticket" class="ticket">結果</div>
+          </div>
         </div>
       </div>
     </div>
@@ -197,6 +236,7 @@ const lockBtn  =document.getElementById('lockBtn');
 const statusEl =document.getElementById('status');
 const detailEl =document.getElementById('detail');
 const banner   =document.getElementById('banner');
+
 const staffBtn =document.getElementById('staffBtn');
 const codeModal=document.getElementById('codeModal');
 const codeInput=document.getElementById('codeInput');
@@ -204,14 +244,16 @@ const cancelBtn=document.getElementById('cancelBtn');
 const unlockBtn=document.getElementById('unlockBtn');
 const logoEl   =document.getElementById('logo');
 
-const drum  =document.getElementById('drum');
-const glow  =document.getElementById('glow');
-const pillar=document.getElementById('pillar');
-const bolt  =document.getElementById('bolt');
-const lid   =document.getElementById('lid');
-const flash =document.getElementById('flash');
-const drop  =document.getElementById('drop');
-const lever =document.getElementById('lever');
+const belt   =document.getElementById('belt');
+const stripe =document.getElementById('stripe');
+const glow   =document.getElementById('glow');
+const pillar =document.getElementById('pillar');
+const bolt   =document.getElementById('bolt');
+const lid    =document.getElementById('lid');
+const flash  =document.getElementById('flash');
+const caps   =document.getElementById('caps');
+const ticket =document.getElementById('ticket');
+const lever  =document.getElementById('lever');
 const overlay=document.getElementById('overlay');
 
 /* ===== ロック制御 ===== */
@@ -241,11 +283,13 @@ function closeModal(){ codeModal.classList.remove('open'); }
 
 /* ===== リセット ===== */
 function resetScene(){
-  drum.style.animation='none';
+  belt.style.animation='none';
+  stripe.style.animation='none';
   lever.style.transform='rotate(0deg)';
   glow.classList.remove('show'); pillar.classList.remove('show'); bolt.classList.remove('show');
   lid.style.transform='rotateX(0deg)'; flash.classList.remove('on');
-  drop.className='drop ball'; drop.style.opacity=0; drop.style.transform='translateY(0)';
+  caps.className='capsWrap'; caps.style.opacity=0; caps.style.transform='translate(-50%,-110px)';
+  ticket.className='ticket'; ticket.textContent='結果';
 }
 
 /* ===== 効果音（簡易WebAudio） ===== */
@@ -271,12 +315,14 @@ function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 async function draw(){
   startBtn.disabled=true; lockBtn.style.display='none';
   initAudio();
-  // レバーを引く演出
+  // レバー
   lever.style.transform='rotate(28deg)'; SE.lever(); setTimeout(()=>lever.style.transform='rotate(0deg)',160);
 
-  // ドラム回転（見た目）
+  // 回転開始（ベルト＋縞模様）
   resetScene(); glow.classList.add('show');
-  drum.style.animation='roll 1.2s linear infinite'; SE.spin();
+  belt.style.animation='drum-move 1.2s linear infinite';
+  stripe.style.animation='drum-move 1.2s linear infinite';
+  SE.spin();
 
   // 抽選
   overlay.classList.add('show');
@@ -296,39 +342,50 @@ async function draw(){
   await playByPrize('P5'); statusEl.textContent='（参考）以前の制限モードの応答：already'; lockBtn.style.display='inline-block'; startBtn.disabled=false;
 }
 
-/* ===== 等級別の演出（A＝控えめ） ===== */
+/* ===== 等級別の演出（ガチャ版） ===== */
 async function playByPrize(p){
-  if(p==='P1'){ // 金光柱→フタ開→排出→開封
-    drum.style.animation='roll-fast .95s linear infinite'; SE.spin();
-    await sleep(600); pillar.classList.add('show'); await sleep(240); bolt.classList.add('show'); await sleep(180);
+  if(p==='P1'){ // 金光柱＋紙吹雪MAX
+    belt.style.animation='drum-move-fast .95s linear infinite';
+    stripe.style.animation='drum-move-fast .95s linear infinite';
+    await sleep(520); pillar.classList.add('show'); await sleep(220); bolt.classList.add('show'); await sleep(160);
     await dispense('gold'); SE.fan1(); confettiMax();
-  }else if(p==='P2'){ // 稲妻＋加速
-    bolt.classList.add('show'); drum.style.animation='roll-fast .9s linear infinite'; SE.spin();
-    await sleep(700); await dispense('red'); SE.fan2(); confettiMid();
-  }else if(p==='P3'){ // 逆回転チラ（0.12s）
-    drum.style.animation='roll 1.05s linear infinite'; SE.spin(); await sleep(850);
-    SE.rev(); drum.style.animation='roll-rev .12s linear 1'; await sleep(130);
-    drum.style.animation='roll 1.18s linear infinite'; await sleep(260);
-    await dispense(''); SE.pop(); confettiLite();
-  }else if(p==='P4'){
-    drum.style.animation='roll 1.18s linear infinite'; await sleep(800); await dispense('green'); SE.pop();
-  }else{
-    drum.style.animation='roll 1.15s linear infinite'; await sleep(780); await dispense(''); SE.pop();
+  }else if(p==='P2'){ // 稲妻＋加速 → 排出
+    bolt.classList.add('show');
+    belt.style.animation='drum-move-fast .9s linear infinite';
+    stripe.style.animation='drum-move-fast .9s linear infinite';
+    await sleep(620); await dispense('red'); SE.fan2(); confettiMid();
+  }else if(p==='P3'){ // 逆走チラ（短く）→ 排出
+    await sleep(700);
+    SE.rev();
+    belt.style.animation='drum-move-rev .12s linear 1'; stripe.style.animation='drum-move-rev .12s linear 1';
+    await sleep(140);
+    belt.style.animation='drum-move 1.18s linear infinite'; stripe.style.animation='drum-move 1.18s linear infinite';
+    await sleep(220); await dispense(''); SE.pop(); confettiLite();
+  }else if(p==='P4'){ // ふつう＋少し光
+    await sleep(680); await dispense('green'); SE.pop();
+  }else{ // P5
+    await sleep(640); await dispense(''); SE.pop();
   }
 }
+
 async function dispense(color=''){
-  // フタ開 → コロン → パカッ
+  // フタ開 → カプセル出る（表示）→ ポン → 割れて中身
   lid.style.transform='rotateX(88deg)';
   flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
-  drop.className='drop ball';
-  if(color==='gold') drop.classList.add('gold');
-  if(color==='green') drop.classList.add('green');
-  if(color==='red')   drop.classList.add('red');
-  drop.style.opacity=0; drop.style.transform='translateY(0)'; await sleep(40);
-  drop.classList.add('show'); await sleep(460);
+
+  // 色
+  caps.className='capsWrap' + (color==='gold'?' gold':color==='green'?' green':color==='red'?' red':'');
+  // 出す
+  caps.style.opacity=0; caps.style.transform='translate(-50%,-110px)';
+  await sleep(60);
+  caps.classList.add('show');
+  await sleep(460);
   flash.classList.add('on'); setTimeout(()=>flash.classList.remove('on'),140);
-  // フタ閉
-  setTimeout(()=>lid.style.transform='rotateX(0deg)',120);
+  // “ぱかっ”
+  caps.classList.add('open');
+
+  // フタ戻す
+  setTimeout(()=>lid.style.transform='rotateX(0deg)',160);
 }
 
 /* 紙吹雪 */
@@ -339,13 +396,20 @@ function confettiMax(){
   setTimeout(()=>confetti({particleCount:200, spread:70, origin:{y:0.3}}),160);
 }
 
-/* 結果表示（でかバナー） */
+/* 結果表示（当たりカード＋バナー） */
 function showResult(p){
   const label={P1:'🎉 大当たり！1等',P2:'✨ 2等 当たり！',P3:'😊 3等',P4:'👍 4等',P5:'🙂 5等'}[p]||'結果';
   const prize={P1:'MOËTシルバー',P2:'カフェパリ',P3:'焼酎ボトル',P4:'テキーラ or ドリンク1杯無料',P5:'おつまみセット'}[p]||'';
   statusEl.textContent=label; detailEl.textContent=prize;
-  banner.className='banner show '+(p==='P1'?'b-p1':p==='P2'?'b-p2':p==='P3'?'b-p3':p==='P4'?'b-p4':'b-p5');
-  banner.textContent=label+'  –  '+prize;
+
+  // カードの色
+  ticket.className='ticket ' + (p==='P1'?'t1':p==='P2'?'t2':p==='P3'?'t3':p==='P4'?'t4':'t5');
+  ticket.textContent=`${label} – ${prize}`;
+
+  // 下のバナーも出す
+  banner.className='banner show ' + (p==='P1'?'b1':p==='P2'?'b2':p==='P3'?'b3':p==='P4'?'b4':'b5');
+  banner.textContent = `${label}  –  ${prize}`;
+
   lockBtn.style.display='inline-block';
   startBtn.disabled=false;
 }
